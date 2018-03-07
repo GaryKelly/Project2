@@ -6,15 +6,17 @@
 #include <cstdlib>  // include support for randomizing
 #include <ctime>   // supports ctime function
 
+
 #include "AwesomeSq.h"   // include AwesomeSq header file
 #include "EvilSq.h"   // include EvilSq header file
+#include "WorldSq.h" //Include worldSq header
+#include "Globals.h" //include globals
 
 class Game
 {
-	// private data members
-	// put your game objects here eg AwesomeSq object and 1D array of EvilSq objects etc.
-
-	sf::RenderWindow window;
+	maze myMaze[ROWS][COLUMNS]; //2D array for maze
+	sf::RenderWindow window;    //render window
+	int level;					//Variable that holds the current level
 
 public:
 	sf::Font m_font;  // font for writing text
@@ -26,7 +28,10 @@ public:	  // declaration of member functions
 	void	run();
 	void	update();
 	void	draw();
-	void	setUpMaze();
+	
+	void	setLv1();			   //Sets maze up for level 1
+	void	setLv2();			   //Sets maze up for level 2
+	void	setlv3();			   //Sets maze up for level 3
 	void	drawMaze();
 };
 

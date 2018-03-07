@@ -46,6 +46,7 @@ int main()
 Game::Game() : window(sf::VideoMode(400, 300), "Project 2")
 // Default constructor
 {
+	setLv1();
 }
 
 
@@ -127,7 +128,61 @@ void Game::draw()
 	window.display();
 }
 
-void Game::setUpMaze()
+void Game::setLv1()
+{
+	//row 0 of maze
+	for (int col = 0, int row = 0 ; col < COLUMNS; col ++)
+	{
+		if (col != 1)
+		{
+			myMaze[row][col].setWallFalse();
+		}
+		else
+		{
+			myMaze[row][col].setWall();
+		}
+	}
+	//end row 0
+
+	//row 1 of maze
+	for (int col = 0, int row = 1; col < COLUMNS; col++)
+	{
+		if (col == 0 || col == 9 || col == 14)
+		{
+			myMaze[row][col].setWallFalse();
+		}
+		else if (col == 4)
+		{
+			myMaze[row][col].setMoveable();
+		}
+		else
+		{
+			myMaze[row][col].setWall();
+		}
+	}
+	//end row 1
+
+	//row 2
+	for (int col = 0, int row = 0; col < COLUMNS; col++)
+	{
+		if (col == 0 || col == 9 || col == 14)
+		{
+			myMaze[row][col].setWallFalse();
+		}
+		else
+		{
+			myMaze[row][col].setWall();
+		}
+	}
+	//end row 2
+}
+
+void Game::setLv2()
+{
+
+}
+
+void Game::setlv3()
 {
 
 }
@@ -135,5 +190,11 @@ void Game::setUpMaze()
 
 void Game::drawMaze()
 {
-
+	for (int row = 0; row < ROWS; row++)
+	{
+		for (int col = 0; col < COLUMNS; col++)
+		{
+			myMaze[row][col].draw(window);
+		}
+	}
 }

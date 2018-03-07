@@ -125,6 +125,7 @@
     <ClInclude Include="AwesomeSq.h" />
     <ClInclude Include="EvilSq.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Globals.h" />
     <ClInclude Include="WorldSq.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
