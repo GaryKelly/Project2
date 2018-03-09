@@ -1,0 +1,10 @@
+﻿  Game.cpp
+c:\users\c00207281\desktop\project2\joint project 2\game.cpp(72): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Generating Code...
+  Compiling...
+  WorldSq.cpp
+c:\users\c00207281\desktop\project2\joint project 2\worldsq.cpp(58): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\c00207281\desktop\project2\joint project 2\worldsq.cpp(59): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  Generating Code...
+  Joint Project 2.vcxproj -> C:\Users\C00207281\Desktop\Project2\Debug\Joint Project 2.exe
+  Joint Project 2.vcxproj -> C:\Users\C00207281\Desktop\Project2\Debug\Joint Project 2.pdb (Partial PDB)

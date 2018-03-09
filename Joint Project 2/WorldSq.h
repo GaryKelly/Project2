@@ -1,6 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-
+#include "Globals.h"
 
 class maze
 {
@@ -8,6 +8,7 @@ class maze
 	sf::Sprite m_squareSprite;   //Maze cell Sprite
 	bool m_wall;			     //Bool for cell being a wall or empty
 	bool m_moveableBlock;		 //Bool if cell is a block that can be moved
+	sf::Vector2f m_blockPos;
 
 
 public:
@@ -17,9 +18,8 @@ public:
 	bool moveable();		   //Returns true if block is moveable
 	void setMoveable();		   //sets moveableBlock bool true
 	void draw(sf::RenderWindow &t_window); //draws cells
-	void setTextureWall();     //sets texture if square is a wall
-	void setTextureBlock();    //sets texture if square is a block
-	void setTextureFloor();    //sets texture if square is empty 
+	void setTexture();			//set text of block 
 	void setSprite();		   //gives square the associated texture 
+	void setPos(int t_row, int t_col); //sets position of the sprite
 };
 

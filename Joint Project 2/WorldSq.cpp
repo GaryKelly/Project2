@@ -30,22 +30,34 @@ void maze::draw(sf::RenderWindow & t_window)
 	t_window.draw(m_squareSprite);
 }
 
-void maze::setTextureWall()
+void maze::setTexture()
 {
-	m_squareTexture.loadFromFile("ASSETS/IMAGES/wall.png");
+	if (m_wall == true)
+	{
+		m_squareTexture.loadFromFile("ASSETS/IMAGES/wall.png");
+	}
+	else if (m_wall == false)
+	{
+		m_squareTexture.loadFromFile("ASSETS/IMAGES/floor.png");
+	}
+	
+
+	
+	setSprite();
 }
 
-void maze::setTextureBlock()
-{
-	m_squareTexture.loadFromFile("ASSETS/IMAGES/moveBlock");
-}
 
-void maze::setTextureFloor()
-{
-	m_squareTexture.loadFromFile("ASSETS/IMAGES/floor.png")
-}
 
 void maze::setSprite()
 {
 	m_squareSprite.setTexture(m_squareTexture);
 }
+
+void maze::setPos(int t_row, int t_col)
+{
+	m_blockPos.x = BLOCK_WIDTH * t_col;
+	m_blockPos.y = BLOCK_HEIGHT * t_row;
+	m_squareSprite.setPosition(m_blockPos);
+
+}
+

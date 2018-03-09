@@ -43,9 +43,10 @@ int main()
 	return 0;
 }
 
-Game::Game() : window(sf::VideoMode(400, 300), "Project 2")
+Game::Game() : window(sf::VideoMode(480, 480), "Project 2")
 // Default constructor
 {
+	
 	setLv1();
 }
 
@@ -122,16 +123,43 @@ void Game::draw()
 	// Clear the screen and draw your game sprites
 	window.clear();
 
-	m_message.setString("Project 2 : Game Play");
-	window.draw(m_message);  // write message to the screen
+	drawMaze();
 
 	window.display();
 }
 
 void Game::setLv1()
 {
-	//row 0 of maze
-	for (int col = 0, int row = 0 ; col < COLUMNS; col ++)
+	row0();
+	row1();
+	row2();
+	row3();
+	row4();
+	row5();
+	row6();
+	row7();
+	row8();
+	row9();
+	row10();
+	row11();
+	row12();
+	row13();
+	row14();
+	for ( row = 0; row < ROWS; row++)
+	{
+		for ( col = 0; col < COLUMNS; col++)
+		{
+			myMaze[row][col].setPos(row, col);
+			myMaze[row][col].setTexture();
+		}
+	}
+}
+
+
+void Game::row0()
+{
+	row = 0;
+	for ( col = 0; col < COLUMNS; col++)
 	{
 		if (col != 1)
 		{
@@ -142,30 +170,47 @@ void Game::setLv1()
 			myMaze[row][col].setWall();
 		}
 	}
-	//end row 0
+}
 
-	//row 1 of maze
-	for (int col = 0, int row = 1; col < COLUMNS; col++)
+
+
+
+void Game::row1()
+{
+	for ( col = 0,  row = 1; col < COLUMNS; col++)
 	{
 		if (col == 0 || col == 9 || col == 14)
 		{
 			myMaze[row][col].setWallFalse();
 		}
-		else if (col == 4)
+		
+		else
 		{
-			myMaze[row][col].setMoveable();
+			myMaze[row][col].setWall();
+		}
+	}
+}
+
+void Game::row2()
+{
+	for ( col = 0, row = 2; col < COLUMNS; col++)
+	{
+		if (col == 0 || col == 9 || col == 14)
+		{
+			myMaze[row][col].setWallFalse();
 		}
 		else
 		{
 			myMaze[row][col].setWall();
 		}
 	}
-	//end row 1
+}
 
-	//row 2
-	for (int col = 0, int row = 0; col < COLUMNS; col++)
+void Game::row3()
+{
+	for ( col = 0, row = 3; col < COLUMNS; col++)
 	{
-		if (col == 0 || col == 9 || col == 14)
+		if (col == 0 || col == 2 || col == 5 || col == 9 || col == 12 || col == 14)
 		{
 			myMaze[row][col].setWallFalse();
 		}
@@ -174,25 +219,178 @@ void Game::setLv1()
 			myMaze[row][col].setWall();
 		}
 	}
-	//end row 2
 }
 
-void Game::setLv2()
+void Game::row4()
 {
-
+	for ( col = 0, row = 4; col < COLUMNS; col++)
+	{
+		if (col == 0 || col == 2 || (col >= 5 && col <= 12) || col == 14 )
+		{
+			myMaze[row][col].setWallFalse();
+		}
+		else
+		{
+			myMaze[row][col].setWall();
+		}		
+	}
 }
 
-void Game::setlv3()
+void Game::row5()
 {
-
+	for ( col = 0,  row = 5; col < COLUMNS; col++)
+	{
+		if (col == 0 || col == 2 || col == 5 || col == 7 || col == 9 || col == 12 || col == 14)
+		{
+			myMaze[row][col].setWallFalse();
+		}
+		else
+		{
+			myMaze[row][col].setWall();
+		}
+	}
 }
 
+void Game::row6()
+{
+	for ( col = 0,  row = 6; col < COLUMNS; col++)
+	{
+		if (col == 0 || col == 2 || col == 5 || col == 9 || (col >= 11 && col <= 14))
+		{
+			myMaze[row][col].setWallFalse();
+		}
+		else
+		{
+			myMaze[row][col].setWall();
+		}
+	}
+}
+
+void Game::row7()
+{
+	for ( col = 0,  row = 7; col < COLUMNS; col++)
+	{
+		if (col == 0 || col == 2 || col == 5 || col == 9 || col == 11 || col == 12 || col == 14)
+		{
+			myMaze[row][col].setWallFalse();
+		}
+		else
+		{
+			myMaze[row][col].setWall();
+		}
+	}
+}
+
+void Game::row8()
+{
+	for ( col = 0,  row = 8; col < COLUMNS; col++)
+	{
+		if (col == 0 || col == 2 || (col >= 5 && col <= 9) || col == 14)
+		{
+			myMaze[row][col].setWallFalse();
+		}
+		else
+		{
+			myMaze[row][col].setWall();
+		}
+	}
+}
+
+void Game::row9()
+{
+	for ( col = 0,  row = 9; col < COLUMNS; col++)
+	{
+		if ((col >= 0 && col <= 5) || col == 10 || col == 11 || col == 14)
+		{
+			myMaze[row][col].setWallFalse();
+		}
+		else
+		{
+			myMaze[row][col].setWall();
+		}
+	}
+}
+
+void Game::row10()
+{
+	for ( col = 0,  row = 10; col < COLUMNS; col++)
+	{
+		if ( (col >= 1 && col <= 8) || col == 10 || col == 11 || col == 14)
+		{
+			myMaze[row][col].setWallFalse();
+		}
+		else
+		{
+			myMaze[row][col].setWall();
+		}
+	}
+}
+
+void Game::row11()
+{
+	for ( col = 0,  row = 11; col < COLUMNS; col++)
+	{
+		if (col == 1 || col == 5 || col == 10 || col == 11 || col == 14)
+		{
+			myMaze[row][col].setWallFalse();
+		}
+		else
+		{
+			myMaze[row][col].setWall();
+		}
+	}
+}
+
+void Game::row12()
+{
+	for ( col = 0,  row = 12; col < COLUMNS; col++)
+	{
+		if (col != 0 || col != 2)
+		{
+			myMaze[row][col].setWallFalse();
+		}
+		else
+		{
+			myMaze[row][col].setWall();
+		}
+	}
+}
+
+void Game::row13()
+{
+	for ( col = 0, row = 13; col < COLUMNS; col++)
+	{
+		if ((col >= 1 && col <= 5)||  col == 12 )
+		{
+			myMaze[row][col].setWallFalse();
+		}
+		else
+		{
+			myMaze[row][col].setWall();
+		}
+	}
+}
+
+void Game::row14()
+{
+	for ( col = 0,  row = 14; col < COLUMNS; col++)
+	{
+		if (col >= 5)
+		{
+			myMaze[row][col].setWallFalse();
+		}
+		else
+		{
+			myMaze[row][col].setWall();
+		}
+	}
+}
 
 void Game::drawMaze()
 {
-	for (int row = 0; row < ROWS; row++)
+	for ( row = 0; row < ROWS; row++)
 	{
-		for (int col = 0; col < COLUMNS; col++)
+		for ( col = 0; col < COLUMNS; col++)
 		{
 			myMaze[row][col].draw(window);
 		}
