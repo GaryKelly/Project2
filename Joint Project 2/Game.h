@@ -15,6 +15,7 @@
 class Game
 {
 	maze myMaze[ROWS][COLUMNS]; //2D array for maze
+	AwesomeSq player;
 	sf::RenderWindow window;    //render window
 	int level;					//Variable that holds the current level
 	int col;
@@ -29,6 +30,7 @@ public:	  // declaration of member functions
 	void	run();
 	void	update();
 	void	draw();
+	void    keyboardInputs();
 	
 	void	setLv1();			   //Sets maze up for level 1
 	void    row1();

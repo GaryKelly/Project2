@@ -21,5 +21,9 @@ public:
 	void setTexture();			//set text of block 
 	void setSprite();		   //gives square the associated texture 
 	void setPos(int t_row, int t_col); //sets position of the sprite
+	bool getWallNorth();
+	bool getWallSouth();
+	bool getWallEast();
+	bool getWallWest();
 };
 

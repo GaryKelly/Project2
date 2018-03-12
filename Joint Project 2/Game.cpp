@@ -124,8 +124,33 @@ void Game::draw()
 	window.clear();
 
 	drawMaze();
+	player.draw(window);
 
 	window.display();
+}
+
+void Game::keyboardInputs()
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	{
+		if (player.getRow() != 0)
+		{
+			if (myMaze[player.getRow()-1][player.getCol()].getWallNorth() == false )
+			{
+				player.moveUp();
+			}
+		}
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	{
+		if(player.getRow() < ROWS - 1)
+		{
+			if (myMaze[player.getRow() + 1][player.getCol()].getWallSouth() == false )
+			{
+
+			}
+	    }
+	}
 }
 
 void Game::setLv1()
