@@ -6,10 +6,15 @@ class AwesomeSq
 {
 	int m_rowPlayer= 0;
 	int m_colPlayer= 0;
+	int m_halfMovePix = 0;
 	sf::RectangleShape m_playerShape = sf::RectangleShape(sf::Vector2f(BLOCK_HEIGHT, BLOCK_WIDTH));
 	sf::Vector2f m_playerPos;
 	sf::Texture m_playerTexture;
 	sf::Sprite m_playerSprite;
+	sf::Image m_spriteSheet;
+	sf::IntRect m_spriteSheetRect;
+	int m_sheetNoRow = 8;
+	int m_sheetNoCol = 12;
 	bool m_playerAlive;
 	bool m_playerNorth;
 	bool m_playerSouth;
@@ -19,9 +24,11 @@ class AwesomeSq
 	bool m_playerMovingDown = false;
 	bool m_playerMovingRight = false;
 	bool m_playerMovingLeft = false;
+	bool m_halfMove = false;
 
 public:
 	AwesomeSq();
+	void updateSprite();
 	int getRow();
 	int getCol();
 	void keyUp();

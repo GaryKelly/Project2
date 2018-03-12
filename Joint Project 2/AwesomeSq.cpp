@@ -4,6 +4,29 @@
 
 AwesomeSq::AwesomeSq()
 {
+	m_spriteSheet.loadFromFile("ASSETS/IMAGES/playerCharacters.png");
+	m_playerSouth = true;
+	m_playerEast = false;
+	m_playerNorth = false;
+	m_playerWest = false;
+}
+
+void AwesomeSq::updateSprite()
+{
+	if (m_playerNorth)
+	{
+		if (m_playerMovingUp)
+		{
+			if (true)
+			{
+
+			}
+		}
+		else
+		{
+			m_playerTexture.loadFromFile("ASSETS/IMAGES/playerCharacters", sf::IntRect(32 * 10, 32 * 7, 32, 32));
+		}
+	}
 }
 
 int AwesomeSq::getRow()
@@ -20,33 +43,56 @@ void AwesomeSq::keyUp()
 {
 	m_rowPlayer--;
 	m_playerMovingUp = true;
+	m_playerSouth = false;
+	m_playerEast = false;
+	m_playerNorth = true;
+	m_playerWest = false;
 }
 
 void AwesomeSq::keyDown()
 {
 	m_rowPlayer++;
 	m_playerMovingDown = true;
+	m_playerSouth = true;
+	m_playerEast = false;
+	m_playerNorth = false;
+	m_playerWest = false;
 }
 
 void AwesomeSq::keyLeft()
 {
 	m_colPlayer--;
 	m_playerMovingLeft = true;
+	m_playerSouth = false;
+	m_playerEast = false;
+	m_playerNorth = false;
+	m_playerWest = true;
 }
 
 void AwesomeSq::keyRight()
 {
 	m_playerMovingRight = true;
 	m_colPlayer++;
+	m_playerSouth = false;
+	m_playerEast = true;
+	m_playerNorth = false;
+	m_playerWest = false;
 	
 }
 
 void AwesomeSq::moveUp()
 {
 	m_playerPos.y--;
+	m_halfMovePix++;
+	if (m_halfMovePix >= 16)
+	{
+		m_halfMove = true;
+	}
 	if (m_playerPos.y == m_rowPlayer*BLOCK_HEIGHT)
 	{
 		m_playerMovingUp = false;
+		m_halfMove = false;
+		m_halfMovePix = 0;
 	}
 	setPos();
 }
@@ -54,9 +100,16 @@ void AwesomeSq::moveUp()
 void AwesomeSq::moveDown()
 {
 	m_playerPos.y++;
+	m_halfMovePix++;
+	if (m_halfMovePix >=16 )
+	{
+		m_halfMove = true;
+	}
 	if (m_playerPos.y == m_rowPlayer*BLOCK_HEIGHT)
 	{
 		m_playerMovingDown = false;
+		m_halfMove = false;
+		m_halfMovePix = 0;
 	}
 	setPos();
 }
@@ -64,9 +117,16 @@ void AwesomeSq::moveDown()
 void AwesomeSq::moveLeft()
 {
 	m_playerPos.x--;
+	m_halfMovePix++;
+	if (m_halfMovePix >= 16)
+	{
+		m_halfMove = true;
+	}
 	if (m_playerPos.x == m_colPlayer*BLOCK_WIDTH)
 	{
 		m_playerMovingLeft = false;
+		m_halfMove = false;
+		m_halfMovePix = 0;
 	}
 	setPos();
 }
@@ -74,9 +134,16 @@ void AwesomeSq::moveLeft()
 void AwesomeSq::moveRight()
 {
 	m_playerPos.x++;
+	m_halfMovePix++;
+	if (m_halfMovePix >= 16)
+	{
+		m_halfMove = true;
+	}
 	if (m_playerPos.x == m_colPlayer*BLOCK_WIDTH)
 	{
 		m_playerMovingRight = false;
+		m_halfMove = false;
+		m_halfMovePix = 0;
 	}
 	setPos();
 }
