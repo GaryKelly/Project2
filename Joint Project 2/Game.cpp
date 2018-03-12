@@ -1,5 +1,5 @@
-// Name: 
-// Login: 
+// Name: Gary Kelly
+// Login: C00207281
 // Date: 
 // Approximate time taken: 
 //---------------------------------------------------------------------------
@@ -46,7 +46,7 @@ int main()
 Game::Game() : window(sf::VideoMode(480, 480), "Project 2")
 // Default constructor
 {
-	
+	player.setStart();
 	setLv1();
 }
 
@@ -112,6 +112,8 @@ void Game::run()
 void Game::update()
 // This function takes the keyboard input and updates the game world
 {
+	keyboardInputs();
+	playerMove();
 
 	// update any game variables here ...
 
@@ -131,25 +133,81 @@ void Game::draw()
 
 void Game::keyboardInputs()
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)  )
 	{
-		if (player.getRow() != 0)
+		if (!player.playerMovingUp() && !player.playerMovingDown() && !player.playerMovingLeft() && !player.playerMovingRight())
 		{
-			if (myMaze[player.getRow()-1][player.getCol()].getWallNorth() == false )
+			if (player.getRow() != 0)
 			{
-				player.moveUp();
+				if (myMaze[(player.getRow() - 1)][player.getCol()].getWall() == false)
+				{
+					player.keyUp();
+				}
 			}
 		}
+		
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) )
 	{
-		if(player.getRow() < ROWS - 1)
+		if (!player.playerMovingUp() && !player.playerMovingDown() && !player.playerMovingLeft() && !player.playerMovingRight())
 		{
-			if (myMaze[player.getRow() + 1][player.getCol()].getWallSouth() == false )
+			if (player.getRow() < ROWS - 1)
 			{
-
+				if (myMaze[(player.getRow() + 1)][player.getCol()].getWall() == false)
+				{
+					player.keyDown();
+				}
 			}
-	    }
+		}
+		
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) )
+	{
+		if (!player.playerMovingUp() && !player.playerMovingDown() && !player.playerMovingLeft() && !player.playerMovingRight())
+		{
+			if (player.getCol() != 0)
+			{
+				if (myMaze[player.getRow()][(player.getCol() - 1)].getWall() == false)
+				{
+					player.keyLeft();
+				}
+			}
+		}
+	
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) )
+	{
+		if (!player.playerMovingUp() && !player.playerMovingDown() && !player.playerMovingLeft() && !player.playerMovingRight())
+		{
+			if (player.getCol() < COLUMNS - 1)
+			{
+				if (myMaze[player.getRow()][(player.getCol() + 1)].getWall() == false)
+				{
+					player.keyRight();
+				}
+			}
+		}
+	
+	}
+}
+
+void Game::playerMove()
+{
+	if (player.playerMovingUp())
+	{
+		player.moveUp();
+	}
+	else if (player.playerMovingDown())
+	{
+		player.moveDown();
+	}
+	else if (player.playerMovingRight())
+	{
+		player.moveRight();
+	}
+	else if (player.playerMovingLeft())
+	{
+		player.moveLeft();
 	}
 }
 
@@ -194,6 +252,7 @@ void Game::row0()
 		{
 			myMaze[row][col].setWall();
 		}
+	
 	}
 }
 

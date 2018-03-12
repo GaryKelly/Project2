@@ -31,6 +31,7 @@ public:	  // declaration of member functions
 	void	update();
 	void	draw();
 	void    keyboardInputs();
+	void    playerMove();
 	
 	void	setLv1();			   //Sets maze up for level 1
 	void    row1();

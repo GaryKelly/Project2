@@ -61,3 +61,5 @@ void maze::setPos(int t_row, int t_col)
 
 }
 
+
+
