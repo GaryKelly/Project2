@@ -7,7 +7,7 @@ class AwesomeSq
 	int m_rowPlayer= 0;
 	int m_colPlayer= 0;
 	int m_halfMovePix = 0;
-	sf::RectangleShape m_playerShape = sf::RectangleShape(sf::Vector2f(BLOCK_HEIGHT, BLOCK_WIDTH));
+	
 	sf::Vector2f m_playerPos;
 	sf::Texture m_playerTexture;
 	sf::Sprite m_playerSprite;

@@ -17,16 +17,79 @@ void AwesomeSq::updateSprite()
 	{
 		if (m_playerMovingUp)
 		{
-			if (true)
+			if (!m_halfMove)
 			{
-
+				m_playerTexture.loadFromImage(m_spriteSheet, sf::IntRect(32 * 9, 32 * 7, 32, 32));
+			}
+			else
+			{
+				m_playerTexture.loadFromImage(m_spriteSheet, sf::IntRect(32 * 11, 32 * 7, 32, 32));
 			}
 		}
 		else
 		{
-			m_playerTexture.loadFromFile("ASSETS/IMAGES/playerCharacters", sf::IntRect(32 * 10, 32 * 7, 32, 32));
+			m_playerTexture.loadFromImage(m_spriteSheet, sf::IntRect(32 * 10, 32 * 7, 32, 32));
 		}
 	}
+
+	if (m_playerSouth)
+	{
+		if (m_playerMovingDown)
+		{
+			if (!m_halfMove)
+			{
+				m_playerTexture.loadFromImage(m_spriteSheet, sf::IntRect(32 * 9, 32 * 4, 32, 32));
+			}
+			else
+			{
+				m_playerTexture.loadFromImage(m_spriteSheet, sf::IntRect(32 * 11, 32 * 4, 32, 32));
+			}
+		}
+		else
+		{
+			m_playerTexture.loadFromImage(m_spriteSheet, sf::IntRect(32 * 10, 32 * 4, 32, 32));
+		}
+	}
+
+	if (m_playerEast)
+	{
+		if (m_playerMovingRight)
+		{
+			if (!m_halfMove)
+			{
+				m_playerTexture.loadFromImage(m_spriteSheet, sf::IntRect(32 * 9, 32 * 6, 32, 32));
+			}
+			else
+			{
+				m_playerTexture.loadFromImage(m_spriteSheet, sf::IntRect(32 * 11, 32 * 6, 32, 32));
+			}
+		}
+		else
+		{
+			m_playerTexture.loadFromImage(m_spriteSheet, sf::IntRect(32 * 10, 32 * 6, 32, 32));
+		}
+	}
+
+	if (m_playerWest)
+	{
+		if (m_playerMovingLeft)
+		{
+			if (!m_halfMove)
+			{
+				m_playerTexture.loadFromImage(m_spriteSheet, sf::IntRect(32 * 9, 32 * 5, 32, 32));
+			}
+			else
+			{
+				m_playerTexture.loadFromImage(m_spriteSheet, sf::IntRect(32 * 11, 32 * 5, 32, 32));
+			}
+		}
+		else
+		{
+			m_playerTexture.loadFromImage(m_spriteSheet, sf::IntRect(32 * 10, 32 * 5, 32, 32));
+		}
+	}
+
+	m_playerSprite.setTexture(m_playerTexture);
 }
 
 int AwesomeSq::getRow()
@@ -150,12 +213,13 @@ void AwesomeSq::moveRight()
 
 void AwesomeSq::setPos()
 {
-	m_playerShape.setPosition(m_playerPos);
+	m_playerSprite.setPosition(m_playerPos);
+	updateSprite();
 }
 
 void AwesomeSq::draw(sf::RenderWindow & t_window)
 {
-	t_window.draw(m_playerShape);
+	t_window.draw(m_playerSprite);
 }
 
 void AwesomeSq::setStart()
@@ -163,7 +227,6 @@ void AwesomeSq::setStart()
 	m_colPlayer = 0;
 	m_colPlayer = 0;
 	m_playerPos = sf::Vector2f(0.0f, 0.0f);
-	m_playerShape.setFillColor(sf::Color::Red);
 	setPos();
 }
 
