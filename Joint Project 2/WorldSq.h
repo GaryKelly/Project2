@@ -2,13 +2,13 @@
 #include <SFML/Graphics.hpp>
 #include "Globals.h"
 
-class maze
+class cell
 {
 	sf::Texture m_squareTexture; //Maze cell Texture
 	sf::Sprite m_squareSprite;   //Maze cell Sprite
 	bool m_wall;			     //Bool for cell being a wall or empty
 	bool m_moveableBlock;		 //Bool if cell is a block that can be moved
-	sf::Vector2f m_blockPos;
+	sf::Vector2f m_blockPos;	 //Position of cell
 
 
 public:

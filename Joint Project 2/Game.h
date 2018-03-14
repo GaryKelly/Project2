@@ -14,8 +14,9 @@
 
 class Game
 {
-	maze myMaze[ROWS][COLUMNS]; //2D array for maze
-	AwesomeSq player;
+	cell myMaze[ROWS][COLUMNS]; //2D array for maze
+	AwesomeSq player;			//player object
+	EvilSq bees[MAX_ENEMIES];   //1D Array of enemy objects
 	sf::RenderWindow window;    //render window
 	int level;					//Variable that holds the current level
 	int col;
@@ -26,14 +27,15 @@ public:
 
 public:	  // declaration of member functions	
 	Game();  // default constructor
-	void	LoadContent();
-	void	run();
-	void	update();
-	void	draw();
-	void    keyboardInputs();
-	void    playerMove();
+	void	LoadContent(); //load game content
+	void	run();		   //run game content
+	void	update();	   //update game
+	void	draw();		   //draw game 
+	void    keyboardInputs(); //key input function
+	void    playerMove(); //player move function
 	
 	void	setLv1();			   //Sets maze up for level 1
+	//sets rows
 	void    row1();
 	void    row2();
 	void    row3();
@@ -45,10 +47,7 @@ public:	  // declaration of member functions
 	void    row9();
 	void    row10();
 	void    row11();
-	void    row12();
-	void    row13();
-	void    row14();
 	void    row0();
-	void	drawMaze();
+	void	drawMaze();   //darw maze (for loops)
 };
 
