@@ -34,5 +34,6 @@ public:
 	void moveDown();
 	void moveRight();
 	void moveLeft();
+	void setSprite();
 
 };

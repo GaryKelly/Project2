@@ -61,4 +61,8 @@ void EvilSq::moveLeft()
 	m_enemyPos.x -= m_enemySpeed;
 }
 
+void EvilSq::setSprite()
+{
+}
+
 
