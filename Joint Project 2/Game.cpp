@@ -230,6 +230,60 @@ void Game::playerMove()
 }
 
 /// <summary>
+/// checks the number of open cells around an enemy 
+/// used to change enemies direction if 3+ cells are free
+/// </summary>
+/// <param name="t_row"></param>
+/// <param name="t_col"></param>
+void Game::checkOpenCells(int t_row, int t_col)
+{
+	int noOfCells{ 0 };
+	int changeDirRandVal{ 0 };
+	bool directionChanged{ false };
+	if (t_row != 0)//Checks cell above enemy
+	{
+		if (myMaze[t_row-1][t_col].getWall() == false)
+		{
+			noOfCells++;
+		}
+	}
+	if (t_row != ROWS - 1)//checks cell below enemy
+	{
+		if (myMaze[t_row + 1][t_col].getWall()==false)
+		{
+			noOfCells++;
+		}
+	}
+	if (t_col != 0)
+	{
+		if (myMaze[t_row][t_col-1].getWall() == false)
+		{
+			noOfCells++;
+		}
+	}
+	if (t_col != COLUMNS - 1)
+	{
+		if (myMaze[t_row][t_col + 1].getWall() == false)
+		{
+			noOfCells++;
+		}
+	}
+
+}
+
+void Game::changeEnemyDirection(int t_row, int t_col)
+{
+}
+
+void Game::moveEnemies()
+{
+	
+	
+
+	
+}
+
+/// <summary>
 /// draws the maze on screen
 /// </summary>
 void Game::drawMaze()

@@ -6,6 +6,7 @@ class EvilSq
 {
 	int m_enemyRow{};				//row in which enemy is in
 	int m_enemyColumn{};			//column in which enemy is in
+	int m_enemyDistInCell;			//
 	sf::Image m_enemySpriteSheet;   //image for enemy sprite sheet
 	sf::Sprite m_enemySprite;		//enemy sprite
 	sf::Texture m_enemyTexture;		//enemy texture
@@ -22,6 +23,7 @@ class EvilSq
 	bool m_sprite2;
 	bool m_sprite3;
 	
+	void setSprite();				//sets enemy sprite
 
 
 
@@ -34,6 +36,15 @@ public:
 	void moveDown();
 	void moveRight();
 	void moveLeft();
-	void setSprite();
+
+	void setTexture();				//sets texture of enemy
+	bool getMoveUp();
+	bool getMoveDown();
+	bool getMoveLeft();
+	bool getMoveRight();
+	void setMoveUp();
+	void setMoveDown();
+	void setMoveLeft();
+	void setMoveRight();
 
 };

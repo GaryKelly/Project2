@@ -33,6 +33,9 @@ public:	  // declaration of member functions
 	void	draw();		   //draw game 
 	void    keyboardInputs(); //key input function
 	void    playerMove(); //player move function
+	void	checkOpenCells(int t_row, int t_col); //checks the number of open cells around enemy position
+	void	changeEnemyDirection(int t_row, int t_col); //function will change enemy direction  
+	void	moveEnemies(); //function calls enemy 
 	
 	void	setLv1();			   //Sets maze up for level 1
 	//sets rows
@@ -49,5 +52,6 @@ public:	  // declaration of member functions
 	void    row11();
 	void    row0();
 	void	drawMaze();   //darw maze (for loops)
+	
 };
 
