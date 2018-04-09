@@ -49,8 +49,9 @@ void EvilSq::move()
 	{
 		moveUp();
 	}
-	setTexture();
+	
 	setPos();
+	setTexture();
 }
 
 /// <summary>
@@ -59,15 +60,13 @@ void EvilSq::move()
 void EvilSq::moveUp()
 {
 	m_enemyDistInCell++;
-	if (m_enemyDistInCell == 17)
-	{
-		m_enemyRow--;
-	}
+	m_enemyPos.y--;
 	if (m_enemyDistInCell == 32)
 	{
 		m_enemyDistInCell = 0;
+		m_enemyRow--;
 	}
-	if (m_enemyDistInCell % 2 == 0)
+	if (m_enemyDistInCell % 4 == 0)
 	{
 		m_sprite1 = true;
 		m_sprite2 = false;
@@ -77,7 +76,7 @@ void EvilSq::moveUp()
 		m_sprite2 = true;
 		m_sprite1 = false;
 	}
-	m_enemyPos.y -= m_enemySpeed;
+	
 }
 
 /// <summary>
@@ -86,15 +85,13 @@ void EvilSq::moveUp()
 void EvilSq::moveDown()
 {
 	m_enemyDistInCell++;
-	if (m_enemyDistInCell == 17)
-	{
-		m_enemyRow++;
-	}
+	m_enemyPos.y++;
 	if (m_enemyDistInCell == 32)
 	{
 		m_enemyDistInCell = 0;
+		m_enemyRow++;
 	}
-	if (m_enemyDistInCell % 2 == 0)
+	if (m_enemyDistInCell % 4 == 0)
 	{
 		m_sprite1 = true;
 		m_sprite2 = false;
@@ -104,7 +101,7 @@ void EvilSq::moveDown()
 		m_sprite2 = true;
 		m_sprite1 = false;
 	}
-	m_enemyPos.y += m_enemySpeed;
+	
 }
 
 /// <summary>
@@ -113,15 +110,13 @@ void EvilSq::moveDown()
 void EvilSq::moveRight()
 {
 	m_enemyDistInCell++;
-	if (m_enemyDistInCell == 17)
-	{
-		m_enemyColumn++;
-	}
+	m_enemyPos.x++;
 	if (m_enemyDistInCell == 32)
 	{
 		m_enemyDistInCell = 0;
+		m_enemyColumn++;
 	}
-	if (m_enemyDistInCell % 2 == 0)
+	if (m_enemyDistInCell % 4== 0)
 	{
 		m_sprite1 = true;
 		m_sprite2 = false;
@@ -131,7 +126,7 @@ void EvilSq::moveRight()
 		m_sprite2 = true;
 		m_sprite1 = false;
 	}
-	m_enemyPos.x += m_enemySpeed;
+	
 }
 
 /// <summary>
@@ -140,7 +135,8 @@ void EvilSq::moveRight()
 void EvilSq::moveLeft()
 {
 	m_enemyDistInCell++;
-	if (m_enemyDistInCell % 2 == 0)
+	m_enemyPos.x--;
+	if (m_enemyDistInCell % 4 == 0)
 	{
 		m_sprite1=true;
 		m_sprite2 = false;
@@ -151,15 +147,13 @@ void EvilSq::moveLeft()
 		m_sprite1 = false;
 	}
 	
-	if (m_enemyDistInCell == 17)
-	{
-		m_enemyColumn--;
-	}
+	
 	if (m_enemyDistInCell == 32)
 	{
 		m_enemyDistInCell = 0;
+		m_enemyColumn--;
 	}
-	m_enemyPos.x -= m_enemySpeed;
+	
 }
 
 void EvilSq::setRowCol(int t_row, int t_col)

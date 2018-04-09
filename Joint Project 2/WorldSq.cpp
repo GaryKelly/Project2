@@ -138,7 +138,7 @@ void cell::moveBlock()
 			m_moved = true;
 			m_framesSinceMove++;
 		}
-		if (m_moved && m_framesSinceMove == 300 )
+		if (m_moved && m_framesSinceMove >= 300 )
 		{
 			m_blockPos.y++;
 			if (m_framesSinceMove == 332)
@@ -146,6 +146,7 @@ void cell::moveBlock()
 				m_moved = false;
 				m_framesSinceMove = 0;
 				m_up = false;
+				m_pixels = 0;
 			}
 		}
 
@@ -162,7 +163,7 @@ void cell::moveBlock()
 			m_moved = true;
 			m_framesSinceMove++;
 		}
-		if (m_moved && m_framesSinceMove == 300)
+		if (m_moved && m_framesSinceMove >= 300)
 		{
 			m_blockPos.y--;
 			if (m_framesSinceMove == 332)
@@ -170,6 +171,7 @@ void cell::moveBlock()
 				m_moved = false;
 				m_framesSinceMove = 0;
 				m_down = false;
+				m_pixels = 0;
 			}
 		}
 	}
@@ -185,7 +187,7 @@ void cell::moveBlock()
 			m_moved = true;
 			m_framesSinceMove++;
 		}
-		if (m_moved && m_framesSinceMove == 300)
+		if (m_moved && m_framesSinceMove >= 300)
 		{
 			m_blockPos.x--;
 			if (m_framesSinceMove == 332)
@@ -209,7 +211,7 @@ void cell::moveBlock()
 			m_moved = true;
 			m_framesSinceMove++;
 		}
-		if (m_moved && m_framesSinceMove == 300)
+		if (m_moved && m_framesSinceMove >= 300)
 		{
 			m_blockPos.x++;
 			if (m_framesSinceMove == 332)
@@ -217,6 +219,7 @@ void cell::moveBlock()
 				m_moved = false;
 				m_framesSinceMove = 0;
 				m_left = false;
+				m_pixels = 0;
 			}
 		}
 	}

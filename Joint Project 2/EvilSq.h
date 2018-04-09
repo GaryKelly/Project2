@@ -6,13 +6,13 @@ class EvilSq
 {
 	int m_enemyRow{};				//row in which enemy is in
 	int m_enemyColumn{};			//column in which enemy is in
-	int m_enemyDistInCell;			//
+	int m_enemyDistInCell = 0;			//
 	sf::Image m_enemySpriteSheet;   //image for enemy sprite sheet
 	sf::Sprite m_enemySprite;		//enemy sprite
 	sf::Texture m_enemyTexture;		//enemy texture
 	sf::Vector2f m_enemyPos;		//enemy position
-	double m_enemySpeed;			//speed of enemy
-	bool m_enemyAlive;				//bool for if enemy is alive
+				
+	bool m_enemyAlive = false;				//bool for if enemy is alive
 	//direction bools
 	bool m_enemyMovingUp;
 	bool m_enemyMovingDown;

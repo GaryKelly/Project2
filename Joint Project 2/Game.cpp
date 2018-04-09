@@ -126,6 +126,7 @@ void Game::update()
 		if (bees[i].getAlive())
 		{
 			bees[i].move();
+			checkOpenCells(bees[i].getEnemyRow(), bees[i].getEnemyCol(), i);
 		}
 	}
 	for (int i = 0; i < ROWS; i++)
@@ -145,18 +146,20 @@ void Game::draw()
 // This function draws the game world
 {
 	// Clear the screen and draw your game sprites
-	window.clear();
+	window.clear(sf::Color::White);
 
 	drawMaze();
 	player.updateSprite();
-	player.draw(window);
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
 		if (bees[i].getAlive())
 		{
+			bees[i].setTexture();
 			bees[i].draw(window);
 		}
 	}
+	player.draw(window);
+	
 
 	window.display();
 }
@@ -243,38 +246,53 @@ void Game::keyboardInputs()
 		{
 			if (player.playerUp())
 			{
-				if (myMaze[player.getRow()-1][player.getCol()].moveable())
+				if (myMaze[player.getRow()-1][player.getCol()].moveable() && myMaze[player.getRow() - 2][player.getCol()].getWall() == false)
 				{
-					up = true;
-					row = player.getRow() - 1;
-					col = player.getCol();
+					if (!up)
+					{
+						up = true;
+						row = player.getRow() - 1;
+						col = player.getCol();
+					}
+				
 				}
 			}
 			else if (player.playerDown())
 			{
-				if (myMaze[player.getRow() + 1][player.getCol()].moveable())
+				if (myMaze[player.getRow() + 1][player.getCol()].moveable() && myMaze[player.getRow() + 2][player.getCol()].getWall() == false)
 				{
-					down = true;
-					row = player.getRow() + 1;
-					col = player.getCol();
+					if (!down)
+					{
+						down = true;
+						row = player.getRow() + 1;
+						col = player.getCol();
+					}
+					
 				}
 			}
 			else if (player.playerLeft())
 			{
-				if (myMaze[player.getRow()][player.getCol()-1].moveable())
+				if (myMaze[player.getRow()][player.getCol()-1].moveable() && myMaze[player.getRow()][player.getCol() - 2].getWall()==false)
 				{
-					left = true;
-					row = player.getRow();
-					col = player.getCol() -1;
+					if (!left)
+					{
+						left = true;
+						row = player.getRow();
+						col = player.getCol() - 1;
+					}
+					
 				}
 			}
 			else if (player.playerRight())
 			{
-				if (myMaze[player.getRow()][player.getCol() + 1].moveable())
+				if (myMaze[player.getRow()][player.getCol() + 1].moveable() && myMaze[player.getRow()][player.getCol() + 2].getWall() ==false)
 				{
-					right = true;
-					row = player.getRow();
-					col = player.getCol() + 1;
+					if (!right)
+					{
+						right = true;
+						row = player.getRow();
+						col = player.getCol() + 1;
+					}
 				}
 			}
 		}
@@ -411,6 +429,35 @@ void Game::moveEnemies()
 		if (bees[i].getAlive())
 		{
 			checkOpenCells(bees[i].getEnemyRow(), bees[i].getEnemyCol(), i);
+			if (bees[i].getMoveUp())
+			{
+				if (myMaze[bees[i].getEnemyRow() - 1][bees[i].getEnemyCol()].getWall())
+				{
+					changeEnemyDirection(bees[i].getEnemyRow(), bees[i].getEnemyCol(), i);
+				}
+			}
+			if (bees[i].getMoveDown())
+			{
+				if (myMaze[bees[i].getEnemyRow() + 1][bees[i].getEnemyCol()].getWall())
+				{
+					changeEnemyDirection(bees[i].getEnemyRow(), bees[i].getEnemyCol(), i);
+				}
+			}
+			if (bees[i].getMoveRight())
+			{
+				if (myMaze[bees[i].getEnemyRow()][bees[i].getEnemyCol()+1].getWall())
+				{
+					changeEnemyDirection(bees[i].getEnemyRow(), bees[i].getEnemyCol(), i);
+				}
+			}
+			if (bees[i].getMoveLeft())
+			{
+				if (myMaze[bees[i].getEnemyRow()][bees[i].getEnemyCol()-1].getWall())
+				{
+					changeEnemyDirection(bees[i].getEnemyRow(), bees[i].getEnemyCol(), i);
+				}
+			}
+			
 			bees[i].move();
 		}
 	}
@@ -488,7 +535,7 @@ void Game::drawMaze()
 void Game::setLv1()
 {
 
-	for (int i = 0; i <= lv1Enemies; i++)
+	for (int i = 0; i < lv1Enemies; i++)
 	{
 		bees[i].setAlive();
 	}
