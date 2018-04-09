@@ -210,7 +210,7 @@ void AwesomeSq::moveUp()
 	{
 		m_halfMove = true;
 	}
-	if (m_playerPos.y == m_rowPlayer*BLOCK_HEIGHT)
+	if (m_halfMovePix == 32)
 	{
 		m_playerMovingUp = false;
 		m_halfMove = false;
@@ -230,7 +230,7 @@ void AwesomeSq::moveDown()
 	{
 		m_halfMove = true;
 	}
-	if (m_playerPos.y == m_rowPlayer*BLOCK_HEIGHT)
+	if (m_halfMovePix == 32)
 	{
 		m_playerMovingDown = false;
 		m_halfMove = false;
@@ -250,7 +250,7 @@ void AwesomeSq::moveLeft()
 	{
 		m_halfMove = true;
 	}
-	if (m_playerPos.x == m_colPlayer*BLOCK_WIDTH)
+	if (m_halfMovePix == 32)
 	{
 		m_playerMovingLeft = false;
 		m_halfMove = false;
@@ -270,7 +270,7 @@ void AwesomeSq::moveRight()
 	{
 		m_halfMove = true;
 	}
-	if (m_playerPos.x == m_colPlayer*BLOCK_WIDTH)
+	if (m_halfMovePix == 32)
 	{
 		m_playerMovingRight = false;
 		m_halfMove = false;
@@ -301,9 +301,9 @@ void AwesomeSq::draw(sf::RenderWindow & t_window)
 /// </summary>
 void AwesomeSq::setStart()
 {
-	m_colPlayer = 0;
-	m_colPlayer = 0;
-	m_playerPos = sf::Vector2f(0.0f, 0.0f);
+	m_colPlayer = 1;
+	m_rowPlayer = 1;
+	m_playerPos = sf::Vector2f(BLOCK_HEIGHT, BLOCK_WIDTH);
 	setPos();
 }
 
@@ -341,4 +341,42 @@ bool AwesomeSq::playerMovingUp()
 bool AwesomeSq::playerMovingDown()
 {
 	return m_playerMovingDown;
+}
+
+/// <summary>
+/// returns true if player is moving 
+/// </summary>
+/// <returns></returns>
+bool AwesomeSq::isPlayerMoving()
+{
+	if (m_playerMovingDown || m_playerMovingLeft || m_playerMovingRight || m_playerMovingUp)
+	{
+		m_moving = true;
+	}
+	else
+	{
+		m_moving = false;
+	}
+	
+	return m_moving;
+}
+
+bool AwesomeSq::playerUp()
+{
+	return m_playerNorth;
+}
+
+bool AwesomeSq::playerDown()
+{
+	return m_playerSouth;
+}
+
+bool AwesomeSq::playerLeft()
+{
+	return m_playerWest;
+}
+
+bool AwesomeSq::playerRight()
+{
+	return m_playerEast;
 }

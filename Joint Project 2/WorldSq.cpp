@@ -1,5 +1,10 @@
 #include "WorldSq.h"
 
+void cell::setPos()
+{
+	m_squareSprite.setPosition(m_blockPos);
+}
+
 /// <summary>
 /// returns true if cell is a wall
 /// </summary>
@@ -56,6 +61,10 @@ void cell::draw(sf::RenderWindow & t_window)
 /// </summary>
 void cell::setTexture()
 {
+	if (m_moveableBlock)
+	{
+		m_squareTexture.loadFromFile("ASSETS/IMAGES/moveBlock.png");
+	}
 	if (m_wall == true) //is cell a wall
 	{
 		m_squareTexture.loadFromFile("ASSETS/IMAGES/wall.png");
@@ -64,6 +73,7 @@ void cell::setTexture()
 	{
 		m_squareTexture.loadFromFile("ASSETS/IMAGES/floor.png");
 	}
+	
 	
 
 	
@@ -90,6 +100,127 @@ void cell::setPos(int t_row, int t_col)
 	m_blockPos.y = BLOCK_HEIGHT * t_row;
 	m_squareSprite.setPosition(m_blockPos);
 
+}
+
+void cell::setUp()
+{
+	m_up = true;
+}
+
+void cell::setDown()
+{
+	m_down = true;
+}
+
+void cell::setRight()
+{
+	m_right = true;
+}
+
+void cell::setLeft()
+{
+	m_left = true;
+}
+
+void cell::moveBlock()
+{
+
+	if (m_up)
+	{
+		
+		if (m_pixels <= 32)
+		{
+			m_blockPos.y--;
+			m_pixels++;
+		}
+		else
+		{
+			m_moved = true;
+			m_framesSinceMove++;
+		}
+		if (m_moved && m_framesSinceMove == 300 )
+		{
+			m_blockPos.y++;
+			if (m_framesSinceMove == 332)
+			{
+				m_moved = false;
+				m_framesSinceMove = 0;
+				m_up = false;
+			}
+		}
+
+	}
+	if (m_down)
+	{
+		if (m_pixels <= 32)
+		{
+			m_blockPos.y++;
+			m_pixels++;
+		}
+		else
+		{
+			m_moved = true;
+			m_framesSinceMove++;
+		}
+		if (m_moved && m_framesSinceMove == 300)
+		{
+			m_blockPos.y--;
+			if (m_framesSinceMove == 332)
+			{
+				m_moved = false;
+				m_framesSinceMove = 0;
+				m_down = false;
+			}
+		}
+	}
+	if (m_right)
+	{
+		if (m_pixels <= 32 && m_moved == false)
+		{
+			m_blockPos.x++;
+			m_pixels++;
+		}
+		else if (m_pixels > 32)
+		{
+			m_moved = true;
+			m_framesSinceMove++;
+		}
+		if (m_moved && m_framesSinceMove == 300)
+		{
+			m_blockPos.x--;
+			if (m_framesSinceMove == 332)
+			{
+				m_moved = false;
+				m_framesSinceMove = 0;
+				m_right = false;
+				m_pixels = 0;
+			}
+		}
+	}
+	if (m_left)
+	{
+		if (m_pixels <= 32)
+		{
+			m_blockPos.x--;
+			m_pixels++;
+		}
+		else
+		{
+			m_moved = true;
+			m_framesSinceMove++;
+		}
+		if (m_moved && m_framesSinceMove == 300)
+		{
+			m_blockPos.x++;
+			if (m_framesSinceMove == 332)
+			{
+				m_moved = false;
+				m_framesSinceMove = 0;
+				m_left = false;
+			}
+		}
+	}
+	setPos();
 }
 
 

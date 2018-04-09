@@ -25,7 +25,7 @@ class AwesomeSq
 	bool m_playerMovingRight = false;
 	bool m_playerMovingLeft = false;
 	bool m_halfMove = false;		 //this bool is used for changing sprite "animation"
-
+	bool m_moving = false;
 public:
 	AwesomeSq();					 //contructor
 	void updateSprite();			 //updates the texture/sprite
@@ -55,5 +55,12 @@ public:
 	bool playerMovingLeft();
 	bool playerMovingUp();
 	bool playerMovingDown();
+	bool isPlayerMoving();
+	//bool returns for what direction the player is facing
+	bool playerUp();
+	bool playerDown();
+	bool playerLeft();
+	bool playerRight();
+
 
 };

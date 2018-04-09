@@ -49,7 +49,7 @@ int main()
 Game::Game() : window(sf::VideoMode(384, 384), "Project 2")
 // Default constructor
 {
-	player.setStart();
+	
 	setLv1();
 }
 
@@ -117,9 +117,24 @@ void Game::run()
 /// </summary>
 void Game::update()
 {
+	
 	keyboardInputs();
 	playerMove();
-
+	moveBox();
+	for (int i = 0; i < MAX_ENEMIES; i++)
+	{
+		if (bees[i].getAlive())
+		{
+			bees[i].move();
+		}
+	}
+	for (int i = 0; i < ROWS; i++)
+	{
+		for (int j = 0; j < COLUMNS; j++)
+		{
+			myMaze[i][j].moveBlock();
+		}
+	}
 
 
 }
@@ -135,6 +150,13 @@ void Game::draw()
 	drawMaze();
 	player.updateSprite();
 	player.draw(window);
+	for (int i = 0; i < MAX_ENEMIES; i++)
+	{
+		if (bees[i].getAlive())
+		{
+			bees[i].draw(window);
+		}
+	}
 
 	window.display();
 }
@@ -146,63 +168,117 @@ void Game::keyboardInputs()
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)  ) //is up key pressed
 	{
-		if (!player.playerMovingUp() && !player.playerMovingDown() && !player.playerMovingLeft() && !player.playerMovingRight()) //is the player not moving
+		if (!player.isPlayerMoving() && keyPressed == false ) //is the player not moving
 		{
 			player.changeToUp();
 			if (player.getRow() != 0) //is player not at screen Boundary
 			{
-				if (myMaze[(player.getRow() - 1)][player.getCol()].getWall() == false) //is the cell above player empty
+				
+				if (myMaze[(player.getRow() - 1)][player.getCol()].getWall() == false && myMaze[(player.getRow() - 1)][player.getCol()].moveable() == false) //is the cell above player empty
 				{
 					player.keyUp();
+					keyPressed = true;
 				}
 			}
 		}
 		
+		
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) ) //is down key pressed
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) ) //is down key pressed
 	{
-		if (!player.playerMovingUp() && !player.playerMovingDown() && !player.playerMovingLeft() && !player.playerMovingRight())//is the player not moving
+		if (!player.isPlayerMoving() && keyPressed == false)//is the player not moving
 		{
 			player.changeToDown();
 			if (player.getRow() < ROWS - 1) //is player not at screen Boundary
 			{
-				if (myMaze[(player.getRow() + 1)][player.getCol()].getWall() == false) //is the cell below player empty
+				if (myMaze[(player.getRow() + 1)][player.getCol()].getWall() == false && myMaze[(player.getRow() + 1)][player.getCol()].moveable() == false) //is the cell below player empty
 				{
 					player.keyDown();
+					keyPressed = true;
+					
 				}
 			}
 		}
 		
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) ) //is left key pressed
+	
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && keyPressed == false ) //is left key pressed
 	{
-		if (!player.playerMovingUp() && !player.playerMovingDown() && !player.playerMovingLeft() && !player.playerMovingRight()) //is player not moving
+		if (!player.isPlayerMoving()) //is player not moving
 		{
 			player.changeToLeft();
 			if (player.getCol() != 0) //is player not at screen boundary
 			{
-				if (myMaze[player.getRow()][(player.getCol() - 1)].getWall() == false) //is the cell to left of player empty
+				if (myMaze[player.getRow()][(player.getCol() - 1)].getWall() == false && myMaze[player.getRow()][(player.getCol() - 1)].moveable() == false) //is the cell to left of player empty
 				{
 					player.keyLeft();
+					keyPressed = true;
+					
 				}
 			}
 		}
 	
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) ) // is right key pressed
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) ) // is right key pressed
 	{
-		if (!player.playerMovingUp() && !player.playerMovingDown() && !player.playerMovingLeft() && !player.playerMovingRight()) //is player not moving
+		if (!player.isPlayerMoving() && keyPressed == false) //is player not moving
 		{
 			player.changeToRight();
 			if (player.getCol() < COLUMNS - 1) //is player not at boundary 
 			{
-				if (myMaze[player.getRow()][(player.getCol() + 1)].getWall() == false) //is cell to right of player empty
+				if (myMaze[player.getRow()][(player.getCol() + 1)].getWall() == false && myMaze[player.getRow()][(player.getCol() + 1)].moveable()==false) //is cell to right of player empty
 				{
 					player.keyRight();
+					keyPressed = true;
+					
 				}
 			}
 		}
 	
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	{
+		if (player.isPlayerMoving() == false)
+		{
+			if (player.playerUp())
+			{
+				if (myMaze[player.getRow()-1][player.getCol()].moveable())
+				{
+					up = true;
+					row = player.getRow() - 1;
+					col = player.getCol();
+				}
+			}
+			else if (player.playerDown())
+			{
+				if (myMaze[player.getRow() + 1][player.getCol()].moveable())
+				{
+					down = true;
+					row = player.getRow() + 1;
+					col = player.getCol();
+				}
+			}
+			else if (player.playerLeft())
+			{
+				if (myMaze[player.getRow()][player.getCol()-1].moveable())
+				{
+					left = true;
+					row = player.getRow();
+					col = player.getCol() -1;
+				}
+			}
+			else if (player.playerRight())
+			{
+				if (myMaze[player.getRow()][player.getCol() + 1].moveable())
+				{
+					right = true;
+					row = player.getRow();
+					col = player.getCol() + 1;
+				}
+			}
+		}
+
 	}
 }
 
@@ -213,19 +289,27 @@ void Game::playerMove()
 {
 	if (player.playerMovingUp()) //is player moving up
 	{
+
 		player.moveUp();
 	}
 	else if (player.playerMovingDown()) //is player moving down
 	{
+
 		player.moveDown();
 	}
 	else if (player.playerMovingRight()) //is player moving right
 	{
+
 		player.moveRight();
 	}
 	else if (player.playerMovingLeft()) //is player moving left
 	{
+
 		player.moveLeft();
+	}
+	if (!player.isPlayerMoving())
+	{
+		keyPressed = false;
 	}
 }
 
@@ -235,11 +319,11 @@ void Game::playerMove()
 /// </summary>
 /// <param name="t_row"></param>
 /// <param name="t_col"></param>
-void Game::checkOpenCells(int t_row, int t_col)
+void Game::checkOpenCells(int t_row, int t_col, int t_bee)
 {
 	int noOfCells{ 0 };
-	int changeDirRandVal{ 0 };
-	bool directionChanged{ false };
+	
+	
 	if (t_row != 0)//Checks cell above enemy
 	{
 		if (myMaze[t_row-1][t_col].getWall() == false)
@@ -268,18 +352,95 @@ void Game::checkOpenCells(int t_row, int t_col)
 			noOfCells++;
 		}
 	}
-
+	if (noOfCells >= 3)
+	{
+		changeEnemyDirection(t_row, t_col, t_bee);
+	}
 }
 
-void Game::changeEnemyDirection(int t_row, int t_col)
+void Game::changeEnemyDirection(int t_row, int t_col, int t_bee)
 {
+	int changeDirRandVal{ 0 };
+	bool directionPicked = false;
+	
+	while (!directionPicked)
+	{
+		changeDirRandVal = (rand() % 4) + 1;
+
+		if (changeDirRandVal == 1)
+		{
+			if (myMaze[t_row - 1][t_col].getWall() == false)
+			{
+				directionPicked = true;
+				bees[t_bee].setMoveUp();
+			}
+		}
+		else if (changeDirRandVal == 2)
+		{
+			if (myMaze[t_row + 1][t_col].getWall() == false)
+			{
+				directionPicked = true;
+				bees[t_bee].setMoveDown();
+			}
+		}
+		else if (changeDirRandVal == 3)
+		{
+			if (myMaze[t_row][t_col + 1].getWall() == false)
+			{
+				directionPicked = true;
+				bees[t_bee].setMoveRight();
+			}
+		}
+		else if (changeDirRandVal == 4)
+		{
+			if (myMaze[t_row][t_col-1].getWall() == false)
+			{
+				directionPicked = true;
+				bees[t_bee].setMoveLeft();
+			}
+		}
+	}
+	
+
 }
 
 void Game::moveEnemies()
 {
-	
+	for (int i = 0; i < MAX_ENEMIES; i++)
+	{
+		if (bees[i].getAlive())
+		{
+			checkOpenCells(bees[i].getEnemyRow(), bees[i].getEnemyCol(), i);
+			bees[i].move();
+		}
+	}
 	
 
+	
+}
+
+void Game::moveBox()
+{
+	if (up)
+	{
+		myMaze[row][col].setUp();
+		up = false;
+	}
+	if (down)
+	{
+		myMaze[row][col].setDown();
+		down = false;
+	}
+	if (right)
+	{
+		myMaze[row][col].setRight();
+		right = false;
+	}
+	if (left)
+	{
+		myMaze[row][col].setLeft();
+		left = false;
+	}
 	
 }
 
@@ -292,7 +453,30 @@ void Game::drawMaze()
 	{
 		for (col = 0; col < COLUMNS; col++)
 		{
-			myMaze[row][col].draw(window);
+			if (myMaze[row][col].getWall() == false && myMaze[row][col].moveable() == false)
+			{
+				myMaze[row][col].draw(window);
+			}
+		}
+	}
+	for (row = 0; row < ROWS; row++)
+	{
+		for (col = 0; col < COLUMNS; col++)
+		{
+			if (myMaze[row][col].getWall() == true)
+			{
+				myMaze[row][col].draw(window);
+			}
+		}
+	}
+	for (row = 0; row < ROWS; row++)
+	{
+		for (col = 0; col < COLUMNS; col++)
+		{
+			if ( myMaze[row][col].moveable() == true)
+			{
+				myMaze[row][col].draw(window);
+			}
 		}
 	}
 }
@@ -303,224 +487,49 @@ void Game::drawMaze()
 /// </summary>
 void Game::setLv1()
 {
-	row0();
-	row1();
-	row2();
-	row3();
-	row4();
-	row5();
-	row6();
-	row7();
-	row8();
-	row9();
-	row10();
-	row11();
+
+	for (int i = 0; i <= lv1Enemies; i++)
+	{
+		bees[i].setAlive();
+	}
+	bees[0].setRowCol(10, 1);
+	bees[0].setMoveUp();
+	bees[1].setRowCol(10, 10);
+	bees[1].setMoveLeft();
+	bees[2].setRowCol(3, 6);
+	bees[2].setMoveLeft();
+	for (int i = 0; i < ROWS; i++)
+	{
+		for (int j = 0; j < COLUMNS; j++)
+		{
+			if (LEVEL_1[i][j] == 0)
+			{
+				myMaze[i][j].setWallFalse();
+			}
+			if (LEVEL_1[i][j] == 1)
+			{
+				myMaze[i][j].setWall();
+			}
+			if (LEVEL_1[i][j] == 2)
+			{
+				myMaze[i][j].setMoveable();
+			}
+		}
+	}
 
 	//calls pos and texture for all cells in maze
-	for ( row = 0; row < ROWS; row++)
+	for (row = 0; row < ROWS; row++)
 	{
-		for ( col = 0; col < COLUMNS; col++)
+		for (col = 0; col < COLUMNS; col++)
 		{
 			myMaze[row][col].setPos(row, col);
 			myMaze[row][col].setTexture();
 		}
 	}
+
+	player.setStart();
 }
 
-//sets row 0
-void Game::row0()
-{
-	row = 0;
-	for ( col = 0; col < COLUMNS; col++)
-	{
-		if (col != 1)
-		{
-			myMaze[row][col].setWallFalse();
-		}
-		else
-		{
-			myMaze[row][col].setWall();
-		}
-	
-	}
-}
-
-//sets row 1
-void Game::row1()
-{
-	for ( col = 0,  row = 1; col < COLUMNS; col++)
-	{
-		if (col == 0 || col == 9 )
-		{
-			myMaze[row][col].setWallFalse();
-		}
-		
-		else
-		{
-			myMaze[row][col].setWall();
-		}
-	}
-}
-
-//ses row 2
-void Game::row2()
-{
-	for ( col = 0, row = 2; col < COLUMNS; col++)
-	{
-		if (col == 0 || col == 9 )
-		{
-			myMaze[row][col].setWallFalse();
-		}
-		else
-		{
-			myMaze[row][col].setWall();
-		}
-	}
-}
-
-//sets row 3
-void Game::row3()
-{
-	for ( col = 0, row = 3; col < COLUMNS; col++)
-	{
-		if (col == 0 || col == 2 || col == 5 || col == 9 )
-		{
-			myMaze[row][col].setWallFalse();
-		}
-		else
-		{
-			myMaze[row][col].setWall();
-		}
-	}
-}
-
-//sets row 4
-void Game::row4()
-{
-	for ( col = 0, row = 4; col < COLUMNS; col++)
-	{
-		if (col == 0 || col == 2 || (col >= 5 && col <= 11) )
-		{
-			myMaze[row][col].setWallFalse();
-		}
-		else
-		{
-			myMaze[row][col].setWall();
-		}		
-	}
-}
-
-//sets row 5
-void Game::row5()
-{
-	for ( col = 0,  row = 5; col < COLUMNS; col++)
-	{
-		if (col == 0 || col == 2 || col == 5 || col == 7 || col == 9 )
-		{
-			myMaze[row][col].setWallFalse();
-		}
-		else
-		{
-			myMaze[row][col].setWall();
-		}
-	}
-}
-
-//sets row 6
-void Game::row6()
-{
-	for ( col = 0,  row = 6; col < COLUMNS; col++)
-	{
-		if (col == 0 || col == 2 || col == 5 || col == 9 || col == 11 )
-		{
-			myMaze[row][col].setWallFalse();
-		}
-		else
-		{
-			myMaze[row][col].setWall();
-		}
-	}
-}
-
-//sets row 7
-void Game::row7()
-{
-	for ( col = 0,  row = 7; col < COLUMNS; col++)
-	{
-		if (col == 0 || col == 2 || col == 5 || col == 9 || col == 11 )
-		{
-			myMaze[row][col].setWallFalse();
-		}
-		else
-		{
-			myMaze[row][col].setWall();
-		}
-	}
-}
-
-//sets row 8
-void Game::row8()
-{
-	for ( col = 0,  row = 8; col < COLUMNS; col++)
-	{
-		if (col == 0 || col == 2 || (col >= 5 && col <= 9) )
-		{
-			myMaze[row][col].setWallFalse();
-		}
-		else
-		{
-			myMaze[row][col].setWall();
-		}
-	}
-}
-
-//sets row 9
-void Game::row9()
-{
-	for ( col = 0,  row = 9; col < COLUMNS; col++)
-	{
-		if ((col >= 0 && col <= 5) || col == 10 || col == 11 )
-		{
-			myMaze[row][col].setWallFalse();
-		}
-		else
-		{
-			myMaze[row][col].setWall();
-		}
-	}
-}
-
-//sets row 10
-void Game::row10()
-{
-	for ( col = 0,  row = 10; col < COLUMNS; col++)
-	{
-		if ( (col >= 1 && col <= 8) || col == 10 || col == 11 )
-		{
-			myMaze[row][col].setWallFalse();
-		}
-		else
-		{
-			myMaze[row][col].setWall();
-		}
-	}
-}
-
-//sets row 11
-void Game::row11()
-{
-	for ( col = 0,  row = 11; col < COLUMNS; col++)
-	{
-		if (col == 1 || col == 5 || col == 10 || col == 11 )
-		{
-			myMaze[row][col].setWallFalse();
-		}
-		else
-		{
-			myMaze[row][col].setWall();
-		}
-	}
-}
 
 
 

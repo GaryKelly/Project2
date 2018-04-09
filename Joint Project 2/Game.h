@@ -2,6 +2,7 @@
 #pragma once
 
 #include "SFML/Graphics.hpp" 
+#include <fstream>
 #include <iostream>
 #include <cstdlib>  // include support for randomizing
 #include <ctime>   // supports ctime function
@@ -18,9 +19,19 @@ class Game
 	AwesomeSq player;			//player object
 	EvilSq bees[MAX_ENEMIES];   //1D Array of enemy objects
 	sf::RenderWindow window;    //render window
+	bool keyPressed = false;
+	bool left = false;
+	bool right = false;
+	bool up = false;
+	bool down = false;
+	
+	
 	int level;					//Variable that holds the current level
 	int col;
 	int row;
+	int lv1Enemies = 3;
+	int lv2Enemies = 4;
+	int lv3Enemies = 5;
 public:
 	sf::Font m_font;  // font for writing text
 	sf::Text m_message;  // text to write on the screen
@@ -33,24 +44,13 @@ public:	  // declaration of member functions
 	void	draw();		   //draw game 
 	void    keyboardInputs(); //key input function
 	void    playerMove(); //player move function
-	void	checkOpenCells(int t_row, int t_col); //checks the number of open cells around enemy position
-	void	changeEnemyDirection(int t_row, int t_col); //function will change enemy direction  
+	void	checkOpenCells(int t_row, int t_col, int t_bee); //checks the number of open cells around enemy position
+	void	changeEnemyDirection(int t_row, int t_col, int t_bee); //function will change enemy direction  
 	void	moveEnemies(); //function calls enemy 
+	void	moveBox();
 	
 	void	setLv1();			   //Sets maze up for level 1
-	//sets rows
-	void    row1();
-	void    row2();
-	void    row3();
-	void    row4();
-	void    row5();
-	void    row6();
-	void    row7();
-	void    row8();
-	void    row9();
-	void    row10();
-	void    row11();
-	void    row0();
+	
 	void	drawMaze();   //darw maze (for loops)
 	
 };

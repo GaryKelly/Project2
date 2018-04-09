@@ -9,6 +9,8 @@
 EvilSq::EvilSq()
 {
 	m_enemySpriteSheet.loadFromFile("ASSETS/IMAGES/beeSprites.png");
+	m_sprite1 = true;
+	m_sprite2 = false;
 }
 
 /// <summary>
@@ -29,11 +31,52 @@ int EvilSq::getEnemyCol()
 	return m_enemyColumn;
 }
 
+void EvilSq::move()
+{
+	if (m_enemyMovingDown)
+	{
+		moveDown();
+	}
+	if (m_enemyMovingLeft)
+	{
+		moveLeft();
+	}
+	if (m_enemyMovingRight)
+	{
+		moveRight();
+	}
+	if (m_enemyMovingUp)
+	{
+		moveUp();
+	}
+	setTexture();
+	setPos();
+}
+
 /// <summary>
 /// moves enemy up
 /// </summary>
 void EvilSq::moveUp()
 {
+	m_enemyDistInCell++;
+	if (m_enemyDistInCell == 17)
+	{
+		m_enemyRow--;
+	}
+	if (m_enemyDistInCell == 32)
+	{
+		m_enemyDistInCell = 0;
+	}
+	if (m_enemyDistInCell % 2 == 0)
+	{
+		m_sprite1 = true;
+		m_sprite2 = false;
+	}
+	else
+	{
+		m_sprite2 = true;
+		m_sprite1 = false;
+	}
 	m_enemyPos.y -= m_enemySpeed;
 }
 
@@ -42,6 +85,25 @@ void EvilSq::moveUp()
 /// </summary>
 void EvilSq::moveDown()
 {
+	m_enemyDistInCell++;
+	if (m_enemyDistInCell == 17)
+	{
+		m_enemyRow++;
+	}
+	if (m_enemyDistInCell == 32)
+	{
+		m_enemyDistInCell = 0;
+	}
+	if (m_enemyDistInCell % 2 == 0)
+	{
+		m_sprite1 = true;
+		m_sprite2 = false;
+	}
+	else
+	{
+		m_sprite2 = true;
+		m_sprite1 = false;
+	}
 	m_enemyPos.y += m_enemySpeed;
 }
 
@@ -50,6 +112,25 @@ void EvilSq::moveDown()
 /// </summary>
 void EvilSq::moveRight()
 {
+	m_enemyDistInCell++;
+	if (m_enemyDistInCell == 17)
+	{
+		m_enemyColumn++;
+	}
+	if (m_enemyDistInCell == 32)
+	{
+		m_enemyDistInCell = 0;
+	}
+	if (m_enemyDistInCell % 2 == 0)
+	{
+		m_sprite1 = true;
+		m_sprite2 = false;
+	}
+	else
+	{
+		m_sprite2 = true;
+		m_sprite1 = false;
+	}
 	m_enemyPos.x += m_enemySpeed;
 }
 
@@ -58,7 +139,40 @@ void EvilSq::moveRight()
 /// </summary>
 void EvilSq::moveLeft()
 {
+	m_enemyDistInCell++;
+	if (m_enemyDistInCell % 2 == 0)
+	{
+		m_sprite1=true;
+		m_sprite2 = false;
+	}
+	else
+	{
+		m_sprite2 = true;
+		m_sprite1 = false;
+	}
+	
+	if (m_enemyDistInCell == 17)
+	{
+		m_enemyColumn--;
+	}
+	if (m_enemyDistInCell == 32)
+	{
+		m_enemyDistInCell = 0;
+	}
 	m_enemyPos.x -= m_enemySpeed;
+}
+
+void EvilSq::setRowCol(int t_row, int t_col)
+{
+	m_enemyRow = t_row;
+	m_enemyColumn = t_col;
+	m_enemyPos = sf::Vector2f(m_enemyRow*BLOCK_WIDTH, m_enemyColumn* BLOCK_HEIGHT);
+	setPos();
+}
+
+void EvilSq::setPos()
+{
+	m_enemySprite.setPosition(m_enemyPos);
 }
 
 /// <summary>
@@ -77,10 +191,7 @@ void EvilSq::setTexture()
 		{
 			m_enemyTexture.loadFromImage(m_enemySpriteSheet, sf::IntRect(BLOCK_WIDTH * 1 , BLOCK_HEIGHT * 3,  32, 32));
 		}
-		else if (m_sprite3)
-		{
-			m_enemyTexture.loadFromImage(m_enemySpriteSheet, sf::IntRect(BLOCK_WIDTH * 2, BLOCK_HEIGHT * 3, 32, 32));
-		}
+	
 	}
 	//end up
 
@@ -95,10 +206,7 @@ void EvilSq::setTexture()
 		{
 			m_enemyTexture.loadFromImage(m_enemySpriteSheet, sf::IntRect(BLOCK_WIDTH * 1, BLOCK_HEIGHT * 0, 32, 32));
 		}
-		else if (m_sprite3)
-		{
-			m_enemyTexture.loadFromImage(m_enemySpriteSheet, sf::IntRect(BLOCK_WIDTH * 2, BLOCK_HEIGHT * 0, 32, 32));
-		}
+		
 	}
 	//end down
 
@@ -113,10 +221,7 @@ void EvilSq::setTexture()
 		{
 			m_enemyTexture.loadFromImage(m_enemySpriteSheet, sf::IntRect(BLOCK_WIDTH * 1, BLOCK_HEIGHT * 2, 32, 32));
 		}
-		else if (m_sprite3)
-		{
-			m_enemyTexture.loadFromImage(m_enemySpriteSheet, sf::IntRect(BLOCK_WIDTH * 2, BLOCK_HEIGHT * 2, 32, 32));
-		}
+		
 	}
 	//end right
 
@@ -131,10 +236,7 @@ void EvilSq::setTexture()
 		{
 			m_enemyTexture.loadFromImage(m_enemySpriteSheet, sf::IntRect(BLOCK_WIDTH * 1, BLOCK_HEIGHT * 1, 32, 32));
 		}
-		else if (m_sprite3)
-		{
-			m_enemyTexture.loadFromImage(m_enemySpriteSheet, sf::IntRect(BLOCK_WIDTH * 0, BLOCK_HEIGHT * 0, 32, 32));
-		}
+		
 	}
 	//end left
 	setSprite();
@@ -190,6 +292,21 @@ void EvilSq::setMoveRight()
 	m_enemyMovingDown = false;
 	m_enemyMovingLeft = false;
 	m_enemyMovingRight = true;
+}
+
+bool EvilSq::getAlive()
+{
+	return m_enemyAlive;
+}
+
+void EvilSq::setAlive()
+{
+	m_enemyAlive = true;
+}
+
+void EvilSq::draw(sf::RenderWindow & t_window)
+{
+	t_window.draw(m_enemySprite);
 }
 
 

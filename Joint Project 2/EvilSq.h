@@ -21,7 +21,7 @@ class EvilSq
 	//sprite selection bools
 	bool m_sprite1;
 	bool m_sprite2;
-	bool m_sprite3;
+	
 	
 	void setSprite();				//sets enemy sprite
 
@@ -32,10 +32,14 @@ public:
 	int getEnemyRow();				//function to get enemy row
 	int getEnemyCol();				//function to get enemy col
 	//enemy move functions
+	void move();
 	void moveUp();
 	void moveDown();
 	void moveRight();
 	void moveLeft();
+	void setRowCol(int t_row, int t_col);
+	void setPos();
+
 
 	void setTexture();				//sets texture of enemy
 	bool getMoveUp();
@@ -46,5 +50,7 @@ public:
 	void setMoveDown();
 	void setMoveLeft();
 	void setMoveRight();
-
+	bool getAlive();
+	void setAlive();
+	void draw(sf::RenderWindow &t_window);
 };
