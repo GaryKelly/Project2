@@ -29,6 +29,7 @@ public:
 	void setTexture();			//set text of block 
 	void setSprite();		   //gives square the associated texture 
 	void setPos(int t_row, int t_col); //sets position of the sprite
+	sf::Vector2f getPos();
 	void setUp();
 	void setDown();
 	void setRight();

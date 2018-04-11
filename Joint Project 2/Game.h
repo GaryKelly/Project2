@@ -24,6 +24,15 @@ class Game
 	bool right = false;
 	bool up = false;
 	bool down = false;
+	enum GameMode
+	{
+		SPLASHSCREEN,
+		LV1,
+		LV2,
+		LV3,
+		GAMEPLAY,
+		GAMEOVER
+	};
 	
 	
 	int level;					//Variable that holds the current level
@@ -48,6 +57,7 @@ public:	  // declaration of member functions
 	void	changeEnemyDirection(int t_row, int t_col, int t_bee); //function will change enemy direction  
 	void	moveEnemies(); //function calls enemy 
 	void	moveBox();
+	void	checkCollisions();
 	
 	void	setLv1();			   //Sets maze up for level 1
 	

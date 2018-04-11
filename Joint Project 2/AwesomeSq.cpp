@@ -12,6 +12,7 @@ AwesomeSq::AwesomeSq()
 	m_playerEast = false;
 	m_playerNorth = false;
 	m_playerWest = false;
+	m_lives = 3;
 }
 
 /// <summary>
@@ -287,6 +288,11 @@ void AwesomeSq::setPos()
 	m_playerSprite.setPosition(m_playerPos);
 }
 
+sf::Vector2f AwesomeSq::getPos()
+{
+	return m_playerPos;
+}
+
 /// <summary>
 /// draws player on screen
 /// </summary>
@@ -379,4 +385,14 @@ bool AwesomeSq::playerLeft()
 bool AwesomeSq::playerRight()
 {
 	return m_playerEast;
+}
+
+void AwesomeSq::loseLife()
+{
+	m_lives--;
+}
+
+int AwesomeSq::getLives()
+{
+	return m_lives;
 }

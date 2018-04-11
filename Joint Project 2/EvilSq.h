@@ -6,7 +6,7 @@ class EvilSq
 {
 	int m_enemyRow{};				//row in which enemy is in
 	int m_enemyColumn{};			//column in which enemy is in
-	int m_enemyDistInCell = 0;			//
+	int m_enemyDistInCell = 0;			
 	sf::Image m_enemySpriteSheet;   //image for enemy sprite sheet
 	sf::Sprite m_enemySprite;		//enemy sprite
 	sf::Texture m_enemyTexture;		//enemy texture
@@ -14,10 +14,15 @@ class EvilSq
 				
 	bool m_enemyAlive = false;				//bool for if enemy is alive
 	//direction bools
-	bool m_enemyMovingUp;
-	bool m_enemyMovingDown;
-	bool m_enemyMovingLeft;
-	bool m_enemyMovingRight;
+	bool m_enemyMovingUp = false;
+	bool m_enemyMovingDown = false;
+	bool m_enemyMovingLeft = false;
+	bool m_enemyMovingRight = false;
+	bool m_moving = false;
+	bool m_up = false;
+	bool m_down = false;
+	bool m_left = false;
+	bool m_right = false; 
 	//sprite selection bools
 	bool m_sprite1;
 	bool m_sprite2;
@@ -37,8 +42,10 @@ public:
 	void moveDown();
 	void moveRight();
 	void moveLeft();
+	bool moving();
 	void setRowCol(int t_row, int t_col);
 	void setPos();
+	sf::Vector2f getPos();
 
 
 	void setTexture();				//sets texture of enemy
@@ -50,6 +57,7 @@ public:
 	void setMoveDown();
 	void setMoveLeft();
 	void setMoveRight();
+	void setBools();
 	bool getAlive();
 	void setAlive();
 	void draw(sf::RenderWindow &t_window);

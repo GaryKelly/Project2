@@ -65,6 +65,7 @@ void EvilSq::moveUp()
 	{
 		m_enemyDistInCell = 0;
 		m_enemyRow--;
+		m_enemyMovingUp = false;
 	}
 	if (m_enemyDistInCell % 4 == 0)
 	{
@@ -90,6 +91,7 @@ void EvilSq::moveDown()
 	{
 		m_enemyDistInCell = 0;
 		m_enemyRow++;
+		m_enemyMovingDown = false;
 	}
 	if (m_enemyDistInCell % 4 == 0)
 	{
@@ -115,6 +117,7 @@ void EvilSq::moveRight()
 	{
 		m_enemyDistInCell = 0;
 		m_enemyColumn++;
+		m_enemyMovingRight = false;
 	}
 	if (m_enemyDistInCell % 4== 0)
 	{
@@ -152,21 +155,40 @@ void EvilSq::moveLeft()
 	{
 		m_enemyDistInCell = 0;
 		m_enemyColumn--;
+		m_enemyMovingLeft =false;
 	}
 	
+}
+
+bool EvilSq::moving()
+{
+	if (m_enemyMovingDown || m_enemyMovingLeft || m_enemyMovingRight || m_enemyMovingUp)
+	{
+		m_moving = true;
+	}
+	else
+	{
+		m_moving = false;
+	}
+	return m_moving;
 }
 
 void EvilSq::setRowCol(int t_row, int t_col)
 {
 	m_enemyRow = t_row;
 	m_enemyColumn = t_col;
-	m_enemyPos = sf::Vector2f(m_enemyRow*BLOCK_WIDTH, m_enemyColumn* BLOCK_HEIGHT);
+	m_enemyPos = sf::Vector2f(m_enemyColumn*BLOCK_WIDTH, m_enemyRow* BLOCK_HEIGHT);
 	setPos();
 }
 
 void EvilSq::setPos()
 {
 	m_enemySprite.setPosition(m_enemyPos);
+}
+
+sf::Vector2f EvilSq::getPos()
+{
+	return m_enemyPos;
 }
 
 /// <summary>
@@ -259,34 +281,82 @@ bool EvilSq::getMoveRight()
 void EvilSq::setMoveUp()
 {
 	m_enemyMovingUp = true;
+	m_up = true;
 	m_enemyMovingDown = false;
+	m_down = false;
 	m_enemyMovingLeft = false;
+	m_left = false;
 	m_enemyMovingRight = false;
+	m_right = false;
 }
 
 void EvilSq::setMoveDown()
 {
 	m_enemyMovingUp = false;
+	m_up = false;
 	m_enemyMovingDown = true;
+	m_down = true;
 	m_enemyMovingLeft = false;
+	m_left = false;
 	m_enemyMovingRight = false;
+	m_right = false;
 }
 
 void EvilSq::setMoveLeft()
 {
 	m_enemyMovingUp = false;
+	m_up = false;
 	m_enemyMovingDown = false;
+	m_down = false;
 	m_enemyMovingLeft = true;
+	m_left = true;
 	m_enemyMovingRight = false;
+	m_right = false;
 }
 
 void EvilSq::setMoveRight()
 {
 	m_enemyMovingUp = false;
+	m_up = false;
 	m_enemyMovingDown = false;
+	m_down = false;
 	m_enemyMovingLeft = false;
+	m_left = false;
 	m_enemyMovingRight = true;
+	m_right = true;
 }
+
+void EvilSq::setBools()
+{
+	if (m_up)
+	{
+		m_enemyMovingUp = true;
+	}
+	if (m_down)
+	{
+		m_enemyMovingDown = true;
+	}
+	if (m_left)
+	{
+		m_enemyMovingLeft = true;
+	}
+	if (m_right)
+	{
+		m_enemyMovingRight = true;
+	}
+}
+
+//void EvilSq::setMovingFalse()
+//{
+//	if (posx % 32 == 0 && posy % 32 == 0)
+//	{
+//		m_enemyMovingUp = false;
+//		m_enemyMovingDown = false;
+//		m_enemyMovingLeft = false;
+//		m_enemyMovingRight = false;
+//		m_moving= false;
+//	}
+//}
 
 bool EvilSq::getAlive()
 {

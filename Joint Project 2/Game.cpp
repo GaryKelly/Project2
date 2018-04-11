@@ -5,8 +5,8 @@
 //---------------------------------------------------------------------------
 // Project description Template
 // ---------------------------------------------------------------------------
-// Known Bugs: i know 3
-// beetle, bee, wasp
+// Known Bugs:
+//
 
 //////////////////////////////////////////////////////////// 
 // Headers for SFML projects
@@ -121,14 +121,14 @@ void Game::update()
 	keyboardInputs();
 	playerMove();
 	moveBox();
+	moveEnemies();
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
-		if (bees[i].getAlive())
-		{
-			bees[i].move();
-			checkOpenCells(bees[i].getEnemyRow(), bees[i].getEnemyCol(), i);
-		}
+		checkOpenCells(bees[i].getEnemyRow(), bees[i].getEnemyCol(), i);
+		bees[i].setBools();
+		
 	}
+
 	for (int i = 0; i < ROWS; i++)
 	{
 		for (int j = 0; j < COLUMNS; j++)
@@ -370,7 +370,7 @@ void Game::checkOpenCells(int t_row, int t_col, int t_bee)
 			noOfCells++;
 		}
 	}
-	if (noOfCells >= 3)
+	if (noOfCells >= 3 && bees[t_bee].moving()==false)
 	{
 		changeEnemyDirection(t_row, t_col, t_bee);
 	}
@@ -428,7 +428,7 @@ void Game::moveEnemies()
 	{
 		if (bees[i].getAlive())
 		{
-			checkOpenCells(bees[i].getEnemyRow(), bees[i].getEnemyCol(), i);
+			
 			if (bees[i].getMoveUp())
 			{
 				if (myMaze[bees[i].getEnemyRow() - 1][bees[i].getEnemyCol()].getWall())
@@ -457,8 +457,14 @@ void Game::moveEnemies()
 					changeEnemyDirection(bees[i].getEnemyRow(), bees[i].getEnemyCol(), i);
 				}
 			}
+
+
+
+			if (bees[i].moving())
+			{
+				bees[i].move();
+			}
 			
-			bees[i].move();
 		}
 	}
 	
@@ -489,6 +495,10 @@ void Game::moveBox()
 		left = false;
 	}
 	
+}
+
+void Game::checkCollisions()
+{
 }
 
 /// <summary>

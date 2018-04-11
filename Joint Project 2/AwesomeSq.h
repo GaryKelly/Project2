@@ -7,6 +7,7 @@ class AwesomeSq
 	int m_rowPlayer= 0;               //player row
 	int m_colPlayer= 0;				  //player column
 	int m_halfMovePix = 0;			  //variable for half movement through cell
+	int m_lives;
 	
 	sf::Vector2f m_playerPos;		  //player position
 	sf::Texture m_playerTexture;	  //player texture
@@ -47,6 +48,7 @@ public:
 	void moveLeft();
 	void moveRight();
 	void setPos();					       //set player position
+	sf::Vector2f getPos();
 	void draw(sf::RenderWindow &t_window); //draw player
 	void setStart();					   //set start pos of player
 
@@ -61,6 +63,8 @@ public:
 	bool playerDown();
 	bool playerLeft();
 	bool playerRight();
+	void loseLife();
+	int getLives();
 
 
 };

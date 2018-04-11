@@ -102,6 +102,11 @@ void cell::setPos(int t_row, int t_col)
 
 }
 
+sf::Vector2f cell::getPos()
+{
+	return m_blockPos;
+}
+
 void cell::setUp()
 {
 	m_up = true;
