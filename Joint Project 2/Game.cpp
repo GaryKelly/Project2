@@ -49,7 +49,7 @@ int main()
 Game::Game() : window(sf::VideoMode(384, 384), "Project 2")
 // Default constructor
 {
-	
+	currentLevel = 1;
 	setLv1();
 }
 
@@ -122,6 +122,15 @@ void Game::update()
 	playerMove();
 	moveBox();
 	moveEnemies();
+	beesAlive = 0;
+	for (int i = 0; i < MAX_ENEMIES; i++)
+	{
+		if (bees[i].getAlive())
+		{
+			beesAlive++;
+		}
+	}
+	checkCollisions();
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
 		checkOpenCells(bees[i].getEnemyRow(), bees[i].getEnemyCol(), i);
@@ -499,7 +508,74 @@ void Game::moveBox()
 
 void Game::checkCollisions()
 {
+
+	for (int i = 0; i < MAX_ENEMIES; i++)
+	{
+		if (bees[i].getAlive())
+		{
+			if (player.getSprite().getGlobalBounds().intersects(bees[i].getSprite().getGlobalBounds()))
+			{
+				player.loseLife();
+				player.setBoolsFalse();
+				resetLv(currentLevel, beesAlive);
+			}
+		}
+		
+	}
+	for (int i = 0; i < ROWS; i++)
+	{
+		for (int j = 0; j < COLUMNS; j++)
+		{
+			if (myMaze[i][j].getMoving())
+			{
+				for (int k = 0; k < MAX_ENEMIES; k++)
+				{
+					if (bees[k].getAlive())
+					{
+						if (bees[k].getSprite().getGlobalBounds().intersects(myMaze[i][j].getSprite().getGlobalBounds()))
+						{
+							bees[k].setDead();
+						}
+					}
+				}
+			}
+		}
+	}
+	
 }
+
+void Game::resetLv(int t_level, int t_bees)
+{
+	if (t_level == 1)
+	{
+		player.setStart();
+		if (t_bees == 3)
+		{
+			bees[0].setRowCol(10, 1);
+			bees[0].setMoveUp();
+			bees[1].setRowCol(10, 10);
+			bees[1].setMoveLeft();
+			bees[2].setRowCol(3, 6);
+			bees[2].setMoveLeft();
+		}
+		else if (t_bees == 2)
+		{
+			bees[0].setRowCol(10, 1);
+			bees[0].setMoveUp();
+			bees[1].setRowCol(10, 10);
+			bees[1].setMoveLeft();
+		}
+		else
+		{
+			bees[0].setRowCol(10, 1);
+			bees[0].setMoveUp();
+		}
+
+		
+	}
+}
+
+
 
 /// <summary>
 /// draws the maze on screen

@@ -231,5 +231,23 @@ void cell::moveBlock()
 	setPos();
 }
 
+sf::Sprite cell::getSprite()
+{
+	return sf::Sprite();
+}
+
+bool cell::getMoving()
+{
+	if (m_up||m_down||m_left||m_right)
+	{
+		m_moving = true;
+	}
+	else
+	{
+		m_moving = false;
+	}
+	return m_moving;
+}
+
 
 

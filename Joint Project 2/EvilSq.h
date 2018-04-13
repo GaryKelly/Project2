@@ -60,5 +60,7 @@ public:
 	void setBools();
 	bool getAlive();
 	void setAlive();
+	void setDead();
 	void draw(sf::RenderWindow &t_window);
+	sf::Sprite getSprite();
 };

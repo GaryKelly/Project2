@@ -31,7 +31,8 @@ class Game
 		LV2,
 		LV3,
 		GAMEPLAY,
-		GAMEOVER
+		GAMEOVER,
+		GAMEWIN
 	};
 	
 	
@@ -41,6 +42,8 @@ class Game
 	int lv1Enemies = 3;
 	int lv2Enemies = 4;
 	int lv3Enemies = 5;
+	int beesAlive;
+	int currentLevel;
 public:
 	sf::Font m_font;  // font for writing text
 	sf::Text m_message;  // text to write on the screen
@@ -58,6 +61,7 @@ public:	  // declaration of member functions
 	void	moveEnemies(); //function calls enemy 
 	void	moveBox();
 	void	checkCollisions();
+	void	resetLv(int t_level, int t_bees);
 	
 	void	setLv1();			   //Sets maze up for level 1
 	

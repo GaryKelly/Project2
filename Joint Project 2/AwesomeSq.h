@@ -47,7 +47,8 @@ public:
 	void moveDown();
 	void moveLeft();
 	void moveRight();
-	void setPos();					       //set player position
+	void setPos();	
+	void setBoolsFalse();//set player position
 	sf::Vector2f getPos();
 	void draw(sf::RenderWindow &t_window); //draw player
 	void setStart();					   //set start pos of player
@@ -65,6 +66,7 @@ public:
 	bool playerRight();
 	void loseLife();
 	int getLives();
+	sf::Sprite getSprite();
 
 
 };

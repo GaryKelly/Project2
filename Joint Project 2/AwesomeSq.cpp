@@ -288,6 +288,16 @@ void AwesomeSq::setPos()
 	m_playerSprite.setPosition(m_playerPos);
 }
 
+void AwesomeSq::setBoolsFalse()
+{
+	int time = 0;
+	m_playerMovingDown = false;
+	m_playerMovingLeft = false;
+	m_playerMovingRight = false;
+	m_playerMovingUp = false;
+	m_halfMovePix = 0;
+}
+
 sf::Vector2f AwesomeSq::getPos()
 {
 	return m_playerPos;
@@ -395,4 +405,9 @@ void AwesomeSq::loseLife()
 int AwesomeSq::getLives()
 {
 	return m_lives;
+}
+
+sf::Sprite AwesomeSq::getSprite()
+{
+	return m_playerSprite;
 }

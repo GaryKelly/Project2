@@ -11,6 +11,7 @@ EvilSq::EvilSq()
 	m_enemySpriteSheet.loadFromFile("ASSETS/IMAGES/beeSprites.png");
 	m_sprite1 = true;
 	m_sprite2 = false;
+	setRowCol(-4, -4);
 }
 
 /// <summary>
@@ -177,6 +178,7 @@ void EvilSq::setRowCol(int t_row, int t_col)
 {
 	m_enemyRow = t_row;
 	m_enemyColumn = t_col;
+	m_enemyDistInCell = 0;
 	m_enemyPos = sf::Vector2f(m_enemyColumn*BLOCK_WIDTH, m_enemyRow* BLOCK_HEIGHT);
 	setPos();
 }
@@ -255,6 +257,10 @@ void EvilSq::setTexture()
 		
 	}
 	//end left
+	if (!m_enemyAlive)
+	{
+		m_enemyTexture.loadFromFile("ASSETS/IMAGES/beeDead.png");
+	}
 	setSprite();
 }
 
@@ -346,17 +352,7 @@ void EvilSq::setBools()
 	}
 }
 
-//void EvilSq::setMovingFalse()
-//{
-//	if (posx % 32 == 0 && posy % 32 == 0)
-//	{
-//		m_enemyMovingUp = false;
-//		m_enemyMovingDown = false;
-//		m_enemyMovingLeft = false;
-//		m_enemyMovingRight = false;
-//		m_moving= false;
-//	}
-//}
+
 
 bool EvilSq::getAlive()
 {
@@ -368,9 +364,19 @@ void EvilSq::setAlive()
 	m_enemyAlive = true;
 }
 
+void EvilSq::setDead()
+{
+	m_enemyAlive = false;
+}
+
 void EvilSq::draw(sf::RenderWindow & t_window)
 {
 	t_window.draw(m_enemySprite);
+}
+
+sf::Sprite EvilSq::getSprite()
+{
+	return m_enemySprite;
 }
 
 
