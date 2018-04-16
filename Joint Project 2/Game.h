@@ -24,7 +24,9 @@ class Game
 	bool right = false;
 	bool up = false;
 	bool down = false;
-	enum GameMode
+	sf::Texture screenText;
+	sf::Sprite screenSprite;
+	enum GameMode 
 	{
 		SPLASHSCREEN,
 		LV1,
@@ -34,6 +36,7 @@ class Game
 		GAMEOVER,
 		GAMEWIN
 	};
+	GameMode gameMode;
 	
 	
 	int level;					//Variable that holds the current level
@@ -46,24 +49,30 @@ class Game
 	int currentLevel;
 public:
 	sf::Font m_font;  // font for writing text
-	sf::Text m_message;  // text to write on the screen
+	sf::Text m_livesMessage;  
+	sf::Text m_levelMessage;
+	sf::Text m_beesAliveMess;
 
 public:	  // declaration of member functions	
 	Game();  // default constructor
-	void	LoadContent(); //load game content
+	
 	void	run();		   //run game content
 	void	update();	   //update game
 	void	draw();		   //draw game 
+	void	setMessages();
 	void    keyboardInputs(); //key input function
 	void    playerMove(); //player move function
 	void	checkOpenCells(int t_row, int t_col, int t_bee); //checks the number of open cells around enemy position
 	void	changeEnemyDirection(int t_row, int t_col, int t_bee); //function will change enemy direction  
 	void	moveEnemies(); //function calls enemy 
 	void	moveBox();
+	void	checkLevelEnd();
 	void	checkCollisions();
 	void	resetLv(int t_level, int t_bees);
 	
 	void	setLv1();			   //Sets maze up for level 1
+	void	setLv2();
+	void	setLv3();
 	
 	void	drawMaze();   //darw maze (for loops)
 	

@@ -1,12 +1,12 @@
 // Name: Gary Kelly
 // Login: C00207281
-// Date: 
-// Approximate time taken: 
+// Date: 16/04/18
+// Approximate time taken: 50 hrs 
 //---------------------------------------------------------------------------
 // Project description Template
 // ---------------------------------------------------------------------------
-// Known Bugs:
-//
+// Known Bugs: if block is moivin and level loaded it will movve
+//			   player walk through moved block
 
 //////////////////////////////////////////////////////////// 
 // Headers for SFML projects
@@ -37,7 +37,7 @@
 int main()
 {
 	Game aGame;
-	aGame.LoadContent();
+	
 	aGame.run();
 
 	return 0;
@@ -47,29 +47,24 @@ int main()
 /// game constructor
 /// </summary>
 Game::Game() : window(sf::VideoMode(384, 384), "Project 2")
-// Default constructor
 {
-	currentLevel = 1;
-	setLv1();
-}
-
-/// <summary>
-/// loads any game content
-/// </summary>
-void Game::LoadContent()
-{
-	if (!m_font.loadFromFile("ASSETS/FONTS/BebasNeue.otf"))
-	{
-		std::cout << "error with font file file";
-	}
+	gameMode = SPLASHSCREEN;
+	//set messages
+	m_font.loadFromFile("ASSETS/FONTS/font.otf");
+	m_levelMessage.setFont(m_font);
+	m_livesMessage.setFont(m_font);
+	m_beesAliveMess.setFont(m_font);
+	m_levelMessage.setFillColor(sf::Color::Black);
+	m_livesMessage.setFillColor(sf::Color::Black);
+	m_beesAliveMess.setFillColor(sf::Color::Black);
+	m_levelMessage.setPosition(sf::Vector2f(150, 0));
+	m_livesMessage.setPosition(sf::Vector2f(10, 0));
+	m_beesAliveMess.setPosition(sf::Vector2f(100, 360));
+	m_levelMessage.setCharacterSize(20);
+	m_livesMessage.setCharacterSize(20);
+	m_beesAliveMess.setCharacterSize(20);
 	
-	// set up the message string 
-	m_message.setFont(m_font);  // set the font for the text
-	m_message.setCharacterSize(24); // set the text size
-	m_message.setFillColor(sf::Color::White); // set the text colour
-	m_message.setPosition(10, 10);  // its position on the screen
 }
-
 
 void Game::run()
 {
@@ -111,38 +106,67 @@ void Game::run()
 
 }
 
-
 /// <summary>
 /// calls functions to update game world
 /// </summary>
 void Game::update()
 {
-	
-	keyboardInputs();
-	playerMove();
-	moveBox();
-	moveEnemies();
-	beesAlive = 0;
-	for (int i = 0; i < MAX_ENEMIES; i++)
+	if (gameMode == SPLASHSCREEN)
 	{
-		if (bees[i].getAlive())
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		{
-			beesAlive++;
+			gameMode = LV1;
 		}
 	}
-	checkCollisions();
-	for (int i = 0; i < MAX_ENEMIES; i++)
+	if (gameMode == LV1)
 	{
-		checkOpenCells(bees[i].getEnemyRow(), bees[i].getEnemyCol(), i);
-		bees[i].setBools();
-		
+		currentLevel = 1;
+		setLv1();
 	}
-
-	for (int i = 0; i < ROWS; i++)
+	if (gameMode == LV2)
 	{
-		for (int j = 0; j < COLUMNS; j++)
+		setLv2();
+	}
+	if (gameMode == LV3)
+	{
+		setLv3();
+	}
+	if (gameMode == GAMEPLAY) //updates the game world while levels are playing
+	{
+		keyboardInputs();
+		playerMove();
+		moveBox();
+		moveEnemies();
+		beesAlive = 0;
+		for (int i = 0; i < MAX_ENEMIES; i++)
 		{
-			myMaze[i][j].moveBlock();
+			if (bees[i].getAlive())
+			{
+				beesAlive++;
+			}
+		}
+		checkCollisions();
+		checkLevelEnd();
+		for (int i = 0; i < MAX_ENEMIES; i++)
+		{
+			checkOpenCells(bees[i].getEnemyRow(), bees[i].getEnemyCol(), i);
+			bees[i].setBools();
+
+		}
+
+		for (int i = 0; i < ROWS; i++)
+		{
+			for (int j = 0; j < COLUMNS; j++)
+			{
+				myMaze[i][j].moveBlock();
+			}
+		}
+	}
+	if (gameMode == GAMEWIN || gameMode == GAMEOVER)
+	{
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) //restart game
+		{
+			gameMode = SPLASHSCREEN;
 		}
 	}
 
@@ -152,25 +176,56 @@ void Game::update()
 /// draws game on screen
 /// </summary>
 void Game::draw()
-// This function draws the game world
 {
 	// Clear the screen and draw your game sprites
 	window.clear(sf::Color::White);
-
-	drawMaze();
-	player.updateSprite();
-	for (int i = 0; i < MAX_ENEMIES; i++)
+	if (gameMode == GAMEPLAY) //draw gameplay
 	{
-		if (bees[i].getAlive())
+		drawMaze();
+		player.updateSprite();
+		for (int i = 0; i < MAX_ENEMIES; i++)
 		{
 			bees[i].setTexture();
 			bees[i].draw(window);
 		}
+		setMessages();
+		window.draw(m_levelMessage);
+		window.draw(m_livesMessage);
+		window.draw(m_beesAliveMess);
+		player.draw(window);
 	}
-	player.draw(window);
+	if (gameMode == SPLASHSCREEN) //draw splashscreen
+	{
+		screenText.loadFromFile("ASSETS/IMAGES/splashscreen.png");
+		screenSprite.setTexture(screenText);
+		screenSprite.setPosition(sf::Vector2f(0, 0));
+		window.draw(screenSprite);
+	}
+	if (gameMode == GAMEOVER) //draw gameover
+	{
+		screenText.loadFromFile("ASSETS/IMAGES/gameover.png");
+		screenSprite.setTexture(screenText);
+		screenSprite.setPosition(sf::Vector2f(0, 0));
+		window.draw(screenSprite);
+	}
+	if (gameMode == GAMEWIN) //draw game win
+	{
+		screenText.loadFromFile("ASSETS/IMAGES/gamewin.png");
+		screenSprite.setTexture(screenText);
+		screenSprite.setPosition(sf::Vector2f(0, 0));
+		window.draw(screenSprite);
+	}
 	
 
 	window.display();
+}
+
+//sets string for messages
+void Game::setMessages()
+{
+	m_livesMessage.setString("Lives: " + std::to_string(player.getLives()));
+	m_beesAliveMess.setString("Bees: " + std::to_string(beesAlive));
+	m_levelMessage.setString("Level: " + std::to_string(currentLevel));
 }
 
 /// <summary>
@@ -384,7 +439,7 @@ void Game::checkOpenCells(int t_row, int t_col, int t_bee)
 		changeEnemyDirection(t_row, t_col, t_bee);
 	}
 }
-
+//function changes enemy direction by random number
 void Game::changeEnemyDirection(int t_row, int t_col, int t_bee)
 {
 	int changeDirRandVal{ 0 };
@@ -431,6 +486,7 @@ void Game::changeEnemyDirection(int t_row, int t_col, int t_bee)
 
 }
 
+//calls enemy move functions
 void Game::moveEnemies()
 {
 	for (int i = 0; i < MAX_ENEMIES; i++)
@@ -481,6 +537,7 @@ void Game::moveEnemies()
 	
 }
 
+//moves the box 
 void Game::moveBox()
 {
 	if (up)
@@ -506,6 +563,31 @@ void Game::moveBox()
 	
 }
 
+//checks end of levels
+void Game::checkLevelEnd()
+{
+	if (beesAlive == 0)
+	{
+		if (currentLevel == 1)
+		{
+			gameMode = LV2;
+		}
+		if (currentLevel == 2)
+		{
+			gameMode = LV3;
+		}
+		if (currentLevel == 3)
+		{
+			gameMode = GAMEWIN;
+		}
+	}
+	if (player.getLives() == 0)
+	{
+		gameMode = GAMEOVER;
+	}
+}
+
+//collision detection
 void Game::checkCollisions()
 {
 
@@ -513,7 +595,7 @@ void Game::checkCollisions()
 	{
 		if (bees[i].getAlive())
 		{
-			if (player.getSprite().getGlobalBounds().intersects(bees[i].getSprite().getGlobalBounds()))
+			if (player.getSprite().getGlobalBounds().intersects(bees[i].getSprite().getGlobalBounds())) //player/bees
 			{
 				player.loseLife();
 				player.setBoolsFalse();
@@ -532,7 +614,7 @@ void Game::checkCollisions()
 				{
 					if (bees[k].getAlive())
 					{
-						if (bees[k].getSprite().getGlobalBounds().intersects(myMaze[i][j].getSprite().getGlobalBounds()))
+						if (bees[k].getSprite().getGlobalBounds().intersects(myMaze[i][j].getSprite().getGlobalBounds())) //bees/moving box
 						{
 							bees[k].setDead();
 						}
@@ -544,10 +626,21 @@ void Game::checkCollisions()
 	
 }
 
+//resets levels when hit
 void Game::resetLv(int t_level, int t_bees)
 {
+	for (int i = 0; i < MAX_ENEMIES; i++)
+	{
+		bees[i].setDead();
+	}
+	for (int i = 0; i < t_bees; i++)
+	{
+		bees[i].setAlive();
+	}
+	//lv1
 	if (t_level == 1)
 	{
+		
 		player.setStart();
 		if (t_bees == 3)
 		{
@@ -573,6 +666,98 @@ void Game::resetLv(int t_level, int t_bees)
 
 		
 	}
+	//end lv1
+	//lv2
+	if (t_level == 2)
+	{
+		player.setStart();
+		if (t_bees == 1)
+		{
+			bees[0].setRowCol(10, 1);
+			bees[0].setMoveUp();
+		}
+		if (t_bees == 2)
+		{
+			bees[0].setRowCol(10, 1);
+			bees[0].setMoveUp();
+			bees[1].setRowCol(10, 10);
+			bees[1].setMoveLeft();
+		}
+		if (t_bees == 3)
+		{
+			bees[0].setRowCol(10, 1);
+			bees[0].setMoveUp();
+			bees[1].setRowCol(10, 10);
+			bees[1].setMoveLeft();
+			bees[2].setRowCol(6, 6);
+			bees[2].setMoveLeft();
+		}
+		if (t_bees == 4)
+		{
+			bees[0].setRowCol(10, 1);
+			bees[0].setMoveUp();
+			bees[1].setRowCol(10, 10);
+			bees[1].setMoveLeft();
+			bees[2].setRowCol(6, 6);
+			bees[2].setMoveLeft();
+			bees[3].setRowCol(1, 10);
+			bees[3].setMoveLeft();
+		}
+		
+	}
+	//end lv2
+	//lv3
+	if (t_level == 3)
+	{
+		player.setStart();
+		if (t_bees == 1)
+		{
+			bees[0].setRowCol(10, 1);
+			bees[0].setMoveUp();
+		}
+		if (t_bees == 2)
+		{
+			bees[0].setRowCol(10, 1);
+			bees[0].setMoveUp();
+			bees[1].setRowCol(10, 10);
+			bees[1].setMoveLeft();
+		}
+		if (t_bees == 3)
+		{
+			bees[0].setRowCol(10, 1);
+			bees[0].setMoveUp();
+			bees[1].setRowCol(10, 10);
+			bees[1].setMoveLeft();
+			bees[2].setRowCol(6, 6);
+			bees[2].setMoveLeft();
+		}
+		if (t_bees == 4)
+		{
+			bees[0].setRowCol(10, 1);
+			bees[0].setMoveUp();
+			bees[1].setRowCol(10, 10);
+			bees[1].setMoveLeft();
+			bees[2].setRowCol(6, 6);
+			bees[2].setMoveLeft();
+			bees[3].setRowCol(1, 10);
+			bees[3].setMoveLeft();
+		}
+		if (t_bees == 5)
+		{
+			bees[0].setRowCol(10, 1);
+			bees[0].setMoveUp();
+			bees[1].setRowCol(10, 10);
+			bees[1].setMoveLeft();
+			bees[2].setRowCol(6, 6);
+			bees[2].setMoveLeft();
+			bees[3].setRowCol(1, 10);
+			bees[3].setMoveLeft();
+			bees[4].setRowCol(10, 6);
+			bees[4].setMoveLeft();
+		}
+
+	}
+	//end lv
 }
 
 
@@ -620,7 +805,11 @@ void Game::drawMaze()
 /// </summary>
 void Game::setLv1()
 {
-
+	for (int i = 0; i < MAX_ENEMIES; i++)
+	{
+		bees[i].setRowCol(-1, -1);
+		bees[i].setDead();
+	}
 	for (int i = 0; i < lv1Enemies; i++)
 	{
 		bees[i].setAlive();
@@ -661,6 +850,107 @@ void Game::setLv1()
 	}
 
 	player.setStart();
+	gameMode = GAMEPLAY;
+}
+
+//loads level two map/enemies
+void Game::setLv2()
+{
+	for (int i = 0; i < lv2Enemies; i++)
+	{
+		bees[i].setAlive();
+	}
+	bees[0].setRowCol(10, 1);
+	bees[0].setMoveUp();
+	bees[1].setRowCol(10, 10);
+	bees[1].setMoveLeft();
+	bees[2].setRowCol(6, 6);
+	bees[2].setMoveLeft();
+	bees[3].setRowCol(1, 10);
+	bees[3].setMoveLeft();
+	for (int i = 0; i < ROWS; i++)
+	{
+		for (int j = 0; j < COLUMNS; j++)
+		{
+			if (LEVEL_2[i][j] == 0)
+			{
+				myMaze[i][j].setWallFalse();
+			}
+			if (LEVEL_2[i][j] == 1)
+			{
+				myMaze[i][j].setWall();
+			}
+			if (LEVEL_2[i][j] == 2)
+			{
+				myMaze[i][j].setMoveable();
+			}
+		}
+	}
+
+	//calls pos and texture for all cells in maze
+	for (row = 0; row < ROWS; row++)
+	{
+		for (col = 0; col < COLUMNS; col++)
+		{
+			myMaze[row][col].setPos(row, col);
+			myMaze[row][col].setTexture();
+		}
+	}
+
+	player.setStart();
+	gameMode = GAMEPLAY;
+	currentLevel = 2;
+}
+
+//loads lv3 map/enemies
+void Game::setLv3()
+{
+	for (int i = 0; i < lv3Enemies; i++)
+	{
+		bees[i].setAlive();
+	}
+	bees[0].setRowCol(10, 1);
+	bees[0].setMoveUp();
+	bees[1].setRowCol(10, 10);
+	bees[1].setMoveLeft();
+	bees[2].setRowCol(6, 6);
+	bees[2].setMoveLeft();
+	bees[3].setRowCol(1, 10);
+	bees[3].setMoveLeft();
+	bees[4].setRowCol(10, 6);
+	bees[4].setMoveLeft();
+	for (int i = 0; i < ROWS; i++)
+	{
+		for (int j = 0; j < COLUMNS; j++)
+		{
+			if (LEVEL_3[i][j] == 0)
+			{
+				myMaze[i][j].setWallFalse();
+			}
+			if (LEVEL_3[i][j] == 1)
+			{
+				myMaze[i][j].setWall();
+			}
+			if (LEVEL_3[i][j] == 2)
+			{
+				myMaze[i][j].setMoveable();
+			}
+		}
+	}
+
+	//calls pos and texture for all cells in maze
+	for (row = 0; row < ROWS; row++)
+	{
+		for (col = 0; col < COLUMNS; col++)
+		{
+			myMaze[row][col].setPos(row, col);
+			myMaze[row][col].setTexture();
+		}
+	}
+
+	player.setStart();
+	gameMode = GAMEPLAY;
+	currentLevel = 3;
 }
 
 

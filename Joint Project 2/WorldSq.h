@@ -8,12 +8,14 @@ class cell
 	sf::Sprite m_squareSprite;   //Maze cell Sprite
 	bool m_wall;			     //Bool for cell being a wall or empty
 	bool m_moveableBlock = false;	//Bool if cell is a block that can be moved
+	//direction bools
 	bool m_left = false;
 	bool m_right = false;
 	bool m_up = false;
 	bool m_down = false;
 	bool m_moved = false;
 	bool m_moving = false;
+
 	int m_pixels = 0;
 	int m_framesSinceMove = 0;
 

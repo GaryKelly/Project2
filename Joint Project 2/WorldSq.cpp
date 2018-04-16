@@ -102,31 +102,37 @@ void cell::setPos(int t_row, int t_col)
 
 }
 
+//return block pos
 sf::Vector2f cell::getPos()
 {
 	return m_blockPos;
 }
 
+//set up bool true
 void cell::setUp()
 {
 	m_up = true;
 }
 
+//set down bool true
 void cell::setDown()
 {
 	m_down = true;
 }
 
+//set right bool true
 void cell::setRight()
 {
 	m_right = true;
 }
 
+//set left bool true
 void cell::setLeft()
 {
 	m_left = true;
 }
 
+//moves the block
 void cell::moveBlock()
 {
 
@@ -143,10 +149,10 @@ void cell::moveBlock()
 			m_moved = true;
 			m_framesSinceMove++;
 		}
-		if (m_moved && m_framesSinceMove >= 300 )
+		if (m_moved && m_framesSinceMove >= 300 ) //move block back
 		{
 			m_blockPos.y++;
-			if (m_framesSinceMove == 332)
+			if (m_framesSinceMove == 332) //stop block
 			{
 				m_moved = false;
 				m_framesSinceMove = 0;
@@ -156,6 +162,7 @@ void cell::moveBlock()
 		}
 
 	}
+	
 	if (m_down)
 	{
 		if (m_pixels <= 32)
@@ -231,11 +238,13 @@ void cell::moveBlock()
 	setPos();
 }
 
+//return sprite
 sf::Sprite cell::getSprite()
 {
-	return sf::Sprite();
+	return m_squareSprite;
 }
 
+//is block moving
 bool cell::getMoving()
 {
 	if (m_up||m_down||m_left||m_right)

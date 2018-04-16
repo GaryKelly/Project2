@@ -32,6 +32,7 @@ int EvilSq::getEnemyCol()
 	return m_enemyColumn;
 }
 
+//move enemy
 void EvilSq::move()
 {
 	if (m_enemyMovingDown)
@@ -161,6 +162,7 @@ void EvilSq::moveLeft()
 	
 }
 
+//is enemy moving
 bool EvilSq::moving()
 {
 	if (m_enemyMovingDown || m_enemyMovingLeft || m_enemyMovingRight || m_enemyMovingUp)
@@ -174,6 +176,7 @@ bool EvilSq::moving()
 	return m_moving;
 }
 
+//set start pos with row/ col
 void EvilSq::setRowCol(int t_row, int t_col)
 {
 	m_enemyRow = t_row;
@@ -183,11 +186,13 @@ void EvilSq::setRowCol(int t_row, int t_col)
 	setPos();
 }
 
+//set enemy pos
 void EvilSq::setPos()
 {
 	m_enemySprite.setPosition(m_enemyPos);
 }
 
+//return enemy pos
 sf::Vector2f EvilSq::getPos()
 {
 	return m_enemyPos;
@@ -264,26 +269,31 @@ void EvilSq::setTexture()
 	setSprite();
 }
 
+//enemy move up
 bool EvilSq::getMoveUp()
 {
 	return m_enemyMovingUp;
 }
 
+//enemy move down
 bool EvilSq::getMoveDown()
 {
 	return m_enemyMovingDown;
 }
 
+//enemy move left
 bool EvilSq::getMoveLeft()
 {
 	return m_enemyMovingLeft;
 }
 
+//enemy move right
 bool EvilSq::getMoveRight()
 {
 	return m_enemyMovingRight;
 }
 
+//set up bool true, others to false
 void EvilSq::setMoveUp()
 {
 	m_enemyMovingUp = true;
@@ -296,6 +306,7 @@ void EvilSq::setMoveUp()
 	m_right = false;
 }
 
+//set down bool true, others to false
 void EvilSq::setMoveDown()
 {
 	m_enemyMovingUp = false;
@@ -308,6 +319,7 @@ void EvilSq::setMoveDown()
 	m_right = false;
 }
 
+//set left bool true, others to false
 void EvilSq::setMoveLeft()
 {
 	m_enemyMovingUp = false;
@@ -320,6 +332,7 @@ void EvilSq::setMoveLeft()
 	m_right = false;
 }
 
+//set right bool true, others to false
 void EvilSq::setMoveRight()
 {
 	m_enemyMovingUp = false;
@@ -332,6 +345,7 @@ void EvilSq::setMoveRight()
 	m_right = true;
 }
 
+//set moving bools
 void EvilSq::setBools()
 {
 	if (m_up)
@@ -353,33 +367,35 @@ void EvilSq::setBools()
 }
 
 
-
+//return alive bool
 bool EvilSq::getAlive()
 {
 	return m_enemyAlive;
 }
 
+//set enemy alive
 void EvilSq::setAlive()
 {
 	m_enemyAlive = true;
 }
 
+//set dead
 void EvilSq::setDead()
 {
 	m_enemyAlive = false;
 }
 
+//draw enemy
 void EvilSq::draw(sf::RenderWindow & t_window)
 {
 	t_window.draw(m_enemySprite);
 }
 
+//get enemy sprite
 sf::Sprite EvilSq::getSprite()
 {
 	return m_enemySprite;
 }
-
-
 
 
 //sets the enemy sprite

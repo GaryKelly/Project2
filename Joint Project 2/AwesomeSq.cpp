@@ -12,7 +12,7 @@ AwesomeSq::AwesomeSq()
 	m_playerEast = false;
 	m_playerNorth = false;
 	m_playerWest = false;
-	m_lives = 3;
+	m_lives = 5;
 }
 
 /// <summary>
@@ -288,6 +288,7 @@ void AwesomeSq::setPos()
 	m_playerSprite.setPosition(m_playerPos);
 }
 
+//sets bools false
 void AwesomeSq::setBoolsFalse()
 {
 	int time = 0;
@@ -298,6 +299,7 @@ void AwesomeSq::setBoolsFalse()
 	m_halfMovePix = 0;
 }
 
+//get player pos
 sf::Vector2f AwesomeSq::getPos()
 {
 	return m_playerPos;
@@ -377,36 +379,42 @@ bool AwesomeSq::isPlayerMoving()
 	return m_moving;
 }
 
+//return playe moving up
 bool AwesomeSq::playerUp()
 {
 	return m_playerNorth;
 }
 
+//return playe moving down
 bool AwesomeSq::playerDown()
 {
 	return m_playerSouth;
 }
 
+//return playe moving left
 bool AwesomeSq::playerLeft()
 {
 	return m_playerWest;
 }
-
+//return playe moving right
 bool AwesomeSq::playerRight()
 {
 	return m_playerEast;
 }
 
+//reduce playe lives
 void AwesomeSq::loseLife()
 {
 	m_lives--;
 }
 
+//return player lives
 int AwesomeSq::getLives()
 {
 	return m_lives;
 }
 
+//retun player sprite
 sf::Sprite AwesomeSq::getSprite()
 {
 	return m_playerSprite;
